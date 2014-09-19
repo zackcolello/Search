@@ -143,7 +143,7 @@ void * SLGetItem( SortedListIteratorPtr iter );
  *          * object is removed from the list using SLRemove() before SLNextItem()
  *           * is called.
  *            *
- *             * You need to fill in this function as part of your implementation.
+ *             *You need to fill in this function as part of your implementation.
  *              */
 
 void * SLNextItem(SortedListIteratorPtr iter);
