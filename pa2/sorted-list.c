@@ -1,46 +1,13 @@
-#ifndef SORTED_LIST_H
-#define SORTED_LIST_H
-/*
- *  * sorted-list.h
- *   */
-
 #include <stdlib.h>
+#include "sorted-list.h"
 
 
-
-
-struct SLNode
-{
-	int refCount;
-	struct SLNode *next;
-	void* data;
-
-};
-typedef struct SLNode* SLNodePtr;
-
+/*sorted-list.c */
 /*
- *  * Sorted list type.  You need to fill in the type as part of your implementation.
- *   */
-struct SortedList
-{
-	SLNodePtr head;
-	int (*compareF)(void*, void *);
-	void (*destroyF)(void *);
 
-
-};
-typedef struct SortedList* SortedListPtr;
-/*
  *  * Iterator type for user to "walk" through the list item by item, from
  *   * beginning to end.  You need to fill in the type as part of your implementation.
  *    */
-struct SortedListIterator
-{
-	struct SLNode *ptr;
-
-};
-typedef struct SortedListIterator* SortedListIteratorPtr;
-
 
 /*
  *  * When your sorted list is used to store objects of some type, since the
@@ -56,9 +23,6 @@ typedef struct SortedListIterator* SortedListIteratorPtr;
  *            * function when a new sorted list is created.
  *             */
 
-typedef int (*CompareFuncT)( void *, void * );
-typedef void (*DestructFuncT)( void * );
-
 /*
  *  * SLCreate creates a new, empty sorted list.  The caller must provide
  *   * a comparator function that can be used to order objects that will be
@@ -71,14 +35,27 @@ typedef void (*DestructFuncT)( void * );
  *          * You need to fill in this function as part of your implementation.
  *           */
 
-SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df);
+SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
+	
+	SortedListPtr sortedList = NULL;
+	sortedList->compareF = cf;
+	sortedList->destroyF = df;
+
+	if(cf != NULL && df != NULL){
+		return sortedList;
+	}else{
+		return NULL;
+	}
+}
 
 /*
  *  * SLDestroy destroys a list, freeing all dynamically allocated memory.
  *   *
  *    * You need to fill in this function as part of your implementation.
  *     */
-void SLDestroy(SortedListPtr list);
+void SLDestroy(SortedListPtr list){
+
+}
 
 
 /*
@@ -92,7 +69,55 @@ void SLDestroy(SortedListPtr list);
  *         * You need to fill in this function as part of your implementation.
  *          */
 
-int SLInsert(SortedListPtr list, void *newObj);
+int SLInsert(SortedListPtr list, void *newObj){
+
+	int cmp;
+
+	SLNodePtr newNode = NULL;
+	newNode->refCount = 0;
+	newNode->next = NULL;
+	newNode->data = newObj; 
+
+	SLNodePtr temp = list->head;
+	SLNodePtr tempPrev = NULL;
+
+	while(temp->next != NULL){
+		cmp = list->compareF(newNode->data, temp->data);
+
+		if(cmp > 0){ //must insert newNode now
+			
+			if(tempPrev == NULL){ //newNode must become head node
+				list->head = newNode;
+				newNode->next = temp;
+				return 1;
+			}else{ //newNode is not head node
+
+				newNode->next = temp;
+				tempPrev->next = newNode;	
+				newNode->refCount++;
+			}
+	
+		}else if(cmp == 0){ //same thing
+			
+
+
+
+
+		}else if(cmp < 0){
+
+
+
+		}
+	
+		tempPrev = temp;
+		temp = temp->next;
+
+	}
+
+	return 0;
+
+
+}
 
 
 /*
@@ -165,4 +190,8 @@ void * SLGetItem( SortedListIteratorPtr iter );
 
 void * SLNextItem(SortedListIteratorPtr iter);
 
-#endif
+
+int main(){
+	return 0;
+}
+
