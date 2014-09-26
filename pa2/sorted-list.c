@@ -82,6 +82,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 	SLNodePtr tempPrev = NULL;
 
 	while(temp->next != NULL){
+
 		cmp = list->compareF(newNode->data, temp->data);
 
 		if(cmp > 0){ //must insert newNode now
@@ -90,6 +91,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 				list->head = newNode;
 				newNode->next = temp;
 				return 1;
+
 			}else{ //newNode is not head node
 
 				newNode->next = temp;
@@ -97,15 +99,13 @@ int SLInsert(SortedListPtr list, void *newObj){
 				newNode->refCount++;
 			}
 	
-		}else if(cmp == 0){ //same thing
+		}else if(cmp == 0){ //same object, insert in front
 			
+			newNode->next = temp;
+			tempPrev->next = newNode;
+			newNode->refCount++;
 
-
-
-
-		}else if(cmp < 0){
-
-
+		}else if(cmp < 0){ //Do we need this if it'll just iterate?
 
 		}
 	
@@ -115,8 +115,6 @@ int SLInsert(SortedListPtr list, void *newObj){
 	}
 
 	return 0;
-
-
 }
 
 
