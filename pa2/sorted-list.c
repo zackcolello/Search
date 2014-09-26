@@ -97,6 +97,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 				newNode->next = temp;
 				tempPrev->next = newNode;	
 				newNode->refCount++;
+				break;
 			}
 	
 		}else if(cmp == 0){ //same object, insert in front
@@ -104,11 +105,10 @@ int SLInsert(SortedListPtr list, void *newObj){
 			newNode->next = temp;
 			tempPrev->next = newNode;
 			newNode->refCount++;
-
-		}else if(cmp < 0){ //Do we need this if it'll just iterate?
+			break;
 
 		}
-	
+		
 		tempPrev = temp;
 		temp = temp->next;
 
