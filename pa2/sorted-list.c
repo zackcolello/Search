@@ -38,6 +38,7 @@
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	
 	SortedListPtr sortedList = NULL;
+	
 	sortedList->compareF = cf;
 	sortedList->destroyF = df;
 
@@ -46,6 +47,7 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	}else{
 		return NULL;
 	}
+
 }
 
 /*
@@ -54,6 +56,14 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
  *    * You need to fill in this function as part of your implementation.
  *     */
 void SLDestroy(SortedListPtr list){
+
+	free(list->compareF);
+	free(list->destroyF);
+	free(list);
+
+	list = NULL;
+	list->compareF = NULL;
+	list->destroyF = NULL;
 
 }
 
@@ -130,8 +140,15 @@ int SLInsert(SortedListPtr list, void *newObj){
  *          * You need to fill in this function as part of your implementation.
  *           */
 
-int SLRemove(SortedListPtr list, void *newObj);
+int SLRemove(SortedListPtr list, void *newObj){
 
+
+
+
+
+	return 1;
+
+}
 
 /*
  *  * SLCreateIterator creates an iterator object that will allow the caller
