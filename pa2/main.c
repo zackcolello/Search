@@ -4,6 +4,8 @@
 
 #include	<string.h>
 #include	"sorted-list.h"
+#include	<stdlib.h>
+#include	<stdio.h>
 
 int compareInts(void *p1, void *p2)
 {
@@ -46,6 +48,8 @@ void destroyBasicTypeNoAlloc(void *p) {
 int main()
 {
 
-printf("made it to main\n");
+	printf("made it to main\n");
+
+	return 0;
 
 }
