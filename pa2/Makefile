@@ -1,5 +1,7 @@
 CC = gcc
 
+all:	main sorted-list
+	
 
 main: main.o
 	gcc -g -Wall -o main main.c

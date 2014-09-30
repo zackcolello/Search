@@ -59,6 +59,22 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
  *     */
 void SLDestroy(SortedListPtr list){
 
+	
+/*	SortedListIteratorPtr temp = SLCreateIterator(list);
+	
+	if(temp==NULL){
+			
+	}
+
+
+	SortedListIteratorPtr temp2=  SLCreateIterator(list);
+	
+	temp2->ptr = temp2->ptr->next;	
+
+	while()
+
+*/	
+	
 	free(list->compareF);
 	free(list->destroyF);
 	free(list);
@@ -110,15 +126,14 @@ int SLInsert(SortedListPtr list, void *newObj){
 				newNode->next = temp;
 				tempPrev->next = newNode;	
 				newNode->refCount++;
-				break;
+				return 1;
 			}
 	
 		}else if(cmp == 0){ //same object, insert in front
-			
-			newNode->next = temp;
-			tempPrev->next = newNode;
-			newNode->refCount++;
-			break;
+		
+			fprintf(stderr, "Dublicate item, cannot insert new item into list\n");
+	
+			return 0;
 
 		}
 		
@@ -127,7 +142,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 	}
 
-	return 0;
+	return 0; //unreachable code
 }
 
 
@@ -144,12 +159,47 @@ int SLInsert(SortedListPtr list, void *newObj){
  *           */
 
 int SLRemove(SortedListPtr list, void *newObj){
+	
+	if(list->head==NULL){
+		return 0;
+	}
 
+	SLNodePtr temp=list->head;
+	SLNodePtr prev;
+	int cmp;
 
+	while(temp!=NULL){
+	cmp=list->compareF(temp->data,newObj);
 
+		if(cmp<0){
+			return 0;	//object is not in list
+		}else if(cmp==0){
+			if (temp==list->head){	//removing first element
+				list->head=list->head->next;
+				temp->refCount--;
+				list->head->refCount++;
+				return 1;
+			}else {
+				prev->next=temp->next;
+				temp->refCount--;
+				temp->next->refCount++;
+				return 1;
+				
+			}
+			
 
+		}else{
+			prev=temp;
+			temp=temp->next;
+		
+		}
+	
+	
+	}	
 
-	return 1;
+	
+
+	return 0;
 
 }
 
@@ -174,6 +224,10 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 	
 	if (list->head!=NULL){
 		list->head->refCount++;
+	}
+
+	if(iPtr->ptr==NULL){
+		return NULL;
 	}
 	return iPtr; 
 
@@ -213,7 +267,15 @@ void SLDestroyIterator(SortedListIteratorPtr iter){
  *      * You need to fill in this function as part of your implementation.
  *      */
 
-void * SLGetItem( SortedListIteratorPtr iter );
+void * SLGetItem( SortedListIteratorPtr iter ){
+
+	if((iter==NULL)||(iter->ptr==NULL)){
+		return 0;
+	}
+
+	return iter->ptr->data;
+
+}
 
 /*
  *  * SLNextItem returns the next object in the list encapsulated by the
@@ -230,8 +292,16 @@ void * SLGetItem( SortedListIteratorPtr iter );
  *             * You need to fill in this function as part of your implementation.
  *              */
 
-void * SLNextItem(SortedListIteratorPtr iter);
+void * SLNextItem(SortedListIteratorPtr iter){
 
+	iter->ptr=iter->ptr->next;
+	if(iter->ptr==NULL){
+		return NULL;
+	}
+	
+	return iter->ptr->data;
+			
+}
 
 int main(){
 	return 0;
