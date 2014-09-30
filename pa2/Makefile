@@ -1,14 +1,15 @@
 CC = gcc
+CCFLAGS = -Wall -g 
 
 all:	main sorted-list
 	
 
 main: main.o
-	gcc -g -Wall -o main main.c
-
+	$(CC) $(CCFLAGS) -o main main.c
+		
 
 sorted-list: sorted-list.o
-	gcc -g -Wall -o sorted-list sorted-list.c
+	$(CC) $(CCFLAGS) -o sorted-list sorted-list.c
 
 clean:
 	-rm -f sorted-list.o
