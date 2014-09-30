@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "sorted-list.h"
 
 
@@ -37,8 +38,9 @@
 
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	
-	SortedListPtr sortedList = NULL;
 	
+	SortedListPtr sortedList = NULL;
+	sortedList= (struct SortedList*) malloc(sizeof(struct SortedList));
 	sortedList->compareF = cf;
 	sortedList->destroyF = df;
 
@@ -84,6 +86,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 	int cmp;
 
 	SLNodePtr newNode = NULL;
+	newNode= (struct SLNode*) malloc(sizeof(struct SLNode));
 	newNode->refCount = 0;
 	newNode->next = NULL;
 	newNode->data = newObj; 
@@ -163,7 +166,21 @@ int SLRemove(SortedListPtr list, void *newObj){
  *           * You need to fill in this function as part of your implementation.
  *            */
 
-SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
+SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
+
+	SortedListIteratorPtr iPtr=NULL;
+	iPtr = (struct SortedListIterator*) malloc(sizeof(struct SortedListIterator));
+	iPtr->ptr=list->head;
+	
+	if (list->head!=NULL){
+		list->head->refCount++;
+	}
+	return iPtr; 
+
+
+
+
+}
 
 
 /*
@@ -175,7 +192,17 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
  *       * You need to fill in this function as part of your implementation.
  *        */
 
-void SLDestroyIterator(SortedListIteratorPtr iter);
+void SLDestroyIterator(SortedListIteratorPtr iter){
+	if (iter->ptr!=NULL){
+		iter->ptr->refCount--;
+	}
+	iter->ptr=NULL;
+	free(iter);
+	iter=NULL;
+	
+	return;
+
+}
 
 
 /*
