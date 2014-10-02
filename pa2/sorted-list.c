@@ -302,8 +302,3 @@ void * SLNextItem(SortedListIteratorPtr iter){
 	return iter->ptr->data;
 			
 }
-
-int main(){
-	return 0;
-}
-

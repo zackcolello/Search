@@ -48,10 +48,11 @@ void destroyBasicTypeNoAlloc(void *p) {
 int main()
 {
 
-//	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
-//	struct SLNode node;
-//	node.data = *((int*) x);
-//	printf("node's data is %d\n", node.data);
+	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
+	struct SLNode node;
+	//node.data = *((int*)5);
+	node.data = (int)5;
+	printf("node's data is %d\n", *((int*)node.data));
 
 
 

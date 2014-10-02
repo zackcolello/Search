@@ -1,7 +1,7 @@
 CC = gcc
 CCFLAGS = -Wall -g 
 
-all:	main sorted-list
+all:	main 
 	
 
 
