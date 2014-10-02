@@ -72,6 +72,7 @@ void SLDestroy(SortedListPtr list){
 
 	while(target!=NULL){
 		temp=target->next;
+		list->destroyF(temp->data);
 		free(temp);
 		target=temp;
 
