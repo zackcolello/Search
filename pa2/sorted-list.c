@@ -59,26 +59,27 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
  *     */
 void SLDestroy(SortedListPtr list){
 
-	SLNode *target, *temp;
+	SLNodePtr target, temp;
+	list->destroyF = NULL;
 	
-	if(list->head==NULL):
+	if(list->head==NULL){
 		free(list);
 		return;
 	}
 
 	target=list->head;
-	temp=NULL
+	temp=NULL;
 
 	while(target!=NULL){
 		temp=target->next;
 		free(temp);
-		target=temp
+		target=temp;
 
 	}
 	
 	free(list);
 	list=NULL;
-
+	return;
 
 
 }
