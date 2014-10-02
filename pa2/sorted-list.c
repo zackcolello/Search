@@ -59,29 +59,27 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
  *     */
 void SLDestroy(SortedListPtr list){
 
+	SLNode *target, *temp;
 	
-/*	SortedListIteratorPtr temp = SLCreateIterator(list);
-	
-	if(temp==NULL){
-			
+	if(list->head==NULL):
+		free(list);
+		return;
 	}
 
+	target=list->head;
+	temp=NULL
 
-	SortedListIteratorPtr temp2=  SLCreateIterator(list);
+	while(target!=NULL){
+		temp=target->next;
+		free(temp);
+		target=temp
+
+	}
 	
-	temp2->ptr = temp2->ptr->next;	
-
-	while()
-
-*/	
-	
-	free(list->compareF);
-	free(list->destroyF);
 	free(list);
+	list=NULL;
 
-	list = NULL;
-	list->compareF = NULL;
-	list->destroyF = NULL;
+
 
 }
 
