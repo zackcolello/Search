@@ -81,10 +81,7 @@ void SLDestroy(SortedListPtr list){
 	free(list);
 	list=NULL;
 	return;
-
-
 }
-
 
 /*
  *  * SLInsert inserts a given object into a sorted list, maintaining sorted
@@ -99,10 +96,15 @@ void SLDestroy(SortedListPtr list){
 
 int SLInsert(SortedListPtr list, void *newObj){
 
-	int cmp;
+	if(list == NULL || newObj == NULL){
+		return 0;
+	}
 
-	SLNodePtr newNode = NULL;
-	newNode= (struct SLNode*) malloc(sizeof(struct SLNode));
+	int cmp;
+	
+	//Create new Node from newObj
+	SLNodePtr newNode; //think this is suposed to have a *
+	newNode= malloc(sizeof(struct SLNode));
 	newNode->refCount = 0;
 	newNode->next = NULL;
 	newNode->data = newObj; 
@@ -110,7 +112,14 @@ int SLInsert(SortedListPtr list, void *newObj){
 	SLNodePtr temp = list->head;
 	SLNodePtr tempPrev = NULL;
 
-	while(temp->next != NULL){
+
+
+	if(list->head == NULL){
+		list->head = newNode;
+		return 1;
+	}
+
+	while(temp != NULL){
 
 		cmp = list->compareF(newNode->data, temp->data);
 
@@ -131,7 +140,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 	
 		}else if(cmp == 0){ //same object, insert in front
 		
-			fprintf(stderr, "Dublicate item, cannot insert new item into list\n");
+			fprintf(stderr, "Dublicate item, cannot insert new item into list.\n");
 	
 			return 0;
 
@@ -160,7 +169,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 int SLRemove(SortedListPtr list, void *newObj){
 	
-	if(list->head==NULL){
+	if(list->head==NULL || newObj == NULL){
 		return 0;
 	}
 
@@ -173,32 +182,27 @@ int SLRemove(SortedListPtr list, void *newObj){
 
 		if(cmp<0){
 			return 0;	//object is not in list
+		
 		}else if(cmp==0){
+		
 			if (temp==list->head){	//removing first element
 				list->head=list->head->next;
 				temp->refCount--;
 				list->head->refCount++;
 				return 1;
+		
 			}else {
 				prev->next=temp->next;
 				temp->refCount--;
 				temp->next->refCount++;
-				return 1;
-				
+				return 1;	
 			}
-			
-
 		}else{
 			prev=temp;
 			temp=temp->next;
 		
 		}
-	
-	
 	}	
-
-	
-
 	return 0;
 
 }
@@ -229,11 +233,8 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 	if(iPtr->ptr==NULL){
 		return NULL;
 	}
+
 	return iPtr; 
-
-
-
-
 }
 
 
@@ -247,9 +248,11 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
  *        */
 
 void SLDestroyIterator(SortedListIteratorPtr iter){
+	
 	if (iter->ptr!=NULL){
 		iter->ptr->refCount--;
 	}
+	
 	iter->ptr=NULL;
 	free(iter);
 	iter=NULL;
@@ -269,7 +272,7 @@ void SLDestroyIterator(SortedListIteratorPtr iter){
 
 void * SLGetItem( SortedListIteratorPtr iter ){
 
-	if((iter==NULL)||(iter->ptr==NULL)){
+	if((iter==NULL) || (iter->ptr==NULL)){
 		return 0;
 	}
 

@@ -1,10 +1,7 @@
 CC = gcc
 CCFLAGS = -Wall -g 
 
-all:	main 
-	
-
-
+all:	main	 
 
 main: main.o libsl.a
 	$(CC) $(CCFLAGS) -o sl main.c libsl.a

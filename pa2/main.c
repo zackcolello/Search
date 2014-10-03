@@ -47,16 +47,27 @@ void destroyBasicTypeNoAlloc(void *p) {
 
 int main()
 {
-
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
-	struct SLNode node;
+	
+	SLInsert(list, (void*)5); //cast as int to make compiler happy
+
+	printf("%d\n", (int)list->head->data);
+
+//	void *data = malloc(sizeof(list->head->data));
+	//data = list->head->data;
+
+
+
+	//printf("%d\n", (int)data);
+
+
+	//printf("%d\n", *((int*)data));
+
+	//struct SLNode node;
 	//node.data = *((int*)5);
-	node.data = (int)5;
-	printf("node's data is %d\n", *((int*)node.data));
-
-
-
-
+	//node.data = 5;
+	//printf("node's data is %d\n", *((int*)node.data));
+	
 	return 0;
 
 }
