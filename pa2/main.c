@@ -47,20 +47,39 @@ void destroyBasicTypeNoAlloc(void *p) {
 	return;
 }
 
-
-void buildList(SortedListPtr list, int listSize){
+//buildList creates a list of a given size with random values. It takes in a SortedListPtr, the size of the list to be created,
+//and the type of elements to be used. 
+//Type 1: Ints
+//Type 2: Doubles
+//Type 3: Strings
+void buildList(SortedListPtr list, int listSize, int type){
 
 	srand(time(NULL));
 
-	void* i1 =malloc(sizeof(int));
-	int i;
+	void* i1 = malloc(sizeof(int));
+	void* d1 = malloc(sizeof(double));
+	void* s1 = malloc(100000);
 	void* n;	
-	
+	int i;	
+
+	double d;
+
 	for (i = 0; i < listSize; i++){
-		n = (rand() % 50); //throwing warning here, needs to be void or something
-		i1 = n;
+
+		if(type == 1){ //fill list with ints
+
+			n = (rand() % 50); //throwing warning here, needs to be void or something
+			i1 = n;
+			SLInsert(list, i1);
+	
+		}else if(type == 2){ //fill list with doubles
 		
-		SLInsert(list, i1);
+			//n = ((rand()/RAND_MAX) * 100);
+			//printf("n is now %f\n", n);
+			//d1 = 3.4;
+			//SLInsert(list, d1);
+			//d1 = d1 + 1.1;
+		}
 	}
 
 }
@@ -79,7 +98,7 @@ void printList(SortedListPtr list){
 int main()
 {
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
-	buildList(list, 10);
+	buildList(list, 10, 1);
 	printList(list);
 
 	SLDestroy(list);
