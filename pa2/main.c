@@ -59,7 +59,7 @@ void buildList(SortedListPtr list, int listSize, int type){
 	void* i1 = malloc(sizeof(int));
 	void* d1 = malloc(sizeof(double));
 	void* s1 = malloc(100000);
-	void* n;	
+	int n;	
 	int i;	
 
 	double d;
@@ -69,7 +69,7 @@ void buildList(SortedListPtr list, int listSize, int type){
 		if(type == 1){ //fill list with ints
 
 			n = (rand() % 50); //throwing warning here, needs to be void or something
-			i1 = n;
+			i1 =&n;
 			SLInsert(list, i1);
 	
 		}else if(type == 2){ //fill list with doubles
@@ -98,9 +98,14 @@ void printList(SortedListPtr list){
 int main()
 {
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
+	//list->type=
+	printf("enter type of data in list: int, double, string, other\n");
+
+	//scan stuff
+	
 	buildList(list, 10, 1);
 	printList(list);
-
+	SLCreateIterator(list);
 	SLDestroy(list);
 
 	return 0;

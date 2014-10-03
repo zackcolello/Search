@@ -43,7 +43,7 @@ struct SortedList
 	SLNodePtr head;
 	CompareFuncT compare;
 	DestructFuncT destroy;
-
+	char type[1000];
 
 };
 typedef struct SortedList* SortedListPtr;

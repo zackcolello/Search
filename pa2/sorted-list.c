@@ -116,7 +116,10 @@ int SLInsert(SortedListPtr list, void *newObj){
 	newNode->next = NULL;
 
 	newNode->data = malloc(100000);
-	newNode->data = newObj; 
+
+
+	newNode->data = *((int*)newObj); //make if statement for different types
+
 
 	SLNodePtr temp = list->head;
 	SLNodePtr tempPrev = NULL;
