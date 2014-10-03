@@ -59,26 +59,32 @@ void buildList(SortedListPtr list, int listSize, int type){
 	void* i1 = malloc(sizeof(int));
 	void* d1 = malloc(sizeof(double));
 	void* s1 = malloc(100000);
+	
 	int n;	
 	int i;	
 
-	double d;
+	double DoubleList1[] = 
+	{2.58, 4.64, 23.3, 47.3, 1.54, 6.72, 6.24, 16.26, 4.13, 4.0, 16.32, 63.54, 87.3, 93.7, 29.84, 
+	99.9, 77.3, 54.2, 52.3, 2.54,
+	};	
+
 
 	for (i = 0; i < listSize; i++){
 
-		if(type == 1){ //fill list with ints
+		if(type == 1){ //fill list with random ints
 
-			n = (rand() % 50); //throwing warning here, needs to be void or something
-			i1 =&n;
+			n = (rand() % 100); //throwing warning here, needs to be void or something
+			i1 =n;
 			SLInsert(list, i1);
 	
-		}else if(type == 2){ //fill list with doubles
-		
-			//n = ((rand()/RAND_MAX) * 100);
-			//printf("n is now %f\n", n);
-			//d1 = 3.4;
-			//SLInsert(list, d1);
-			//d1 = d1 + 1.1;
+		}else if(type == 2){ //fill list with one double array
+
+
+			d1 = &(DoubleList1[i]);	
+			SLInsert(list, (void*)2.58);			
+
+			
+	
 		}
 	}
 
@@ -91,23 +97,64 @@ void printList(SortedListPtr list){
 	int i=0;
 	for(ptr = list->head; ptr != NULL; ptr = ptr->next){
 		i++;
-		printf("%d: %d\n", i, ptr->data) ;
+		
+		if(list->type == 1){
+			printf("%d: Data is %d, refCount: %d\n", i, ptr->data, ptr->refCount);
+		}else if(list->type == 2){
+			printf("%d: Data is %2.3f, refCount: %d\n", i, ptr->data, ptr->refCount);
+		}else if(list->type == 3){
+			printf("%d: Data is %s, refCount %d\n", i, ptr->data, ptr->refCount);
+		}else{
+			printf("%d: Data is %p, refCount %d\n", i, ptr->data, ptr->refCount);
+
+		}
+
+
+
 	}
 }
+
 
 int main()
 {
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
-	//list->type=
-	printf("enter type of data in list: int, double, string, other\n");
-
-	//scan stuff
 	
-	buildList(list, 10, 1);
+	printf("enter type of data in list: 1) int, 2) double, 3) string, or 4) other\n");
+
+	//scan user input
+	scanf("%d", &(list->type));
+	
+
+	buildList(list, 20, list->type);
+		
 	printList(list);
-	SLCreateIterator(list);
+
+
+	SortedListIteratorPtr iter = SLCreateIterator(list);
+	int iterdata= SLGetItem(iter);
+
+//	printf("iters head is %d\n", iter->ptr->data);	
+	
+	SLNodePtr temp = malloc(sizeof(struct SLNode));
+	temp = iter->ptr;	
+
+	//Testing iterator
+/*	while(temp!=NULL){
+
+		iterdata = temp->data;
+		temp=(SLNextItem(iter));	
+		
+		printf("iter points to %d\n",iterdata);
+	}
+*/
+
+	void* x = malloc(1000);
+	x = 13;
+//	SLRemove(list, x);
+	printList(list);	
+
 	SLDestroy(list);
 
 	return 0;
-
 }
+
