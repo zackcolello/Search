@@ -6,14 +6,16 @@
 #include	"sorted-list.h"
 #include	<stdlib.h>
 #include	<stdio.h>
+#include	<time.h>
+
 
 int compareInts(void *p1, void *p2)
 {
-	printf("p1 is %d and p2 is %d \n", p1, p2);
 
 	int i1 = *(int*)p1;
 	int i2 = *(int*)p2;
 
+	printf("i1 is %d, i2 is %d\n", i1, i2);
 	printf("about to return from compareInts\n");
 	return i1 - i2;
 }
@@ -50,17 +52,22 @@ void destroyBasicTypeNoAlloc(void *p) {
 
 void buildList(SortedListPtr list, int listSize){
 
-	int randNum;
-	int i;
 	srand(time(NULL));
 
-	void* i1 =(int*)malloc(sizeof(int));
+	void* i1 =malloc(100000);
+	void* i2 = malloc(10000);
+	i1 = (int*)20;
+	i2 = (int*)54;
+	SLInsert(list, i1);
+	SLInsert(list, i2);
+
+
+
 	
-	
-	for (i = 0; i < listSize; i++){
-		i1 = rand() % 50;
-		SLInsert(list, i1);
-	}
+//	for (i = 0; i < listSize; i++){
+//		i1 = rand() % 50;
+//		SLInsert(list, i1);
+//	}
 
 }
 

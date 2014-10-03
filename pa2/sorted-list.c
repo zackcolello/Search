@@ -135,8 +135,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 
 
-		cmp = list->compare(newNode->data, temp->data);
-	//	cmp = list->compare(newObj, (temp->data));
+		cmp = list->compare(&(newNode->data), &(temp->data));
 
 		printf("got past cmp\n");
 
