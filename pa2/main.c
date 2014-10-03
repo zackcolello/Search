@@ -15,8 +15,6 @@ int compareInts(void *p1, void *p2)
 	int i1 = *(int*)p1;
 	int i2 = *(int*)p2;
 
-	printf("i1 is %d, i2 is %d\n", i1, i2);
-	printf("about to return from compareInts\n");
 	return i1 - i2;
 }
 
@@ -54,38 +52,37 @@ void buildList(SortedListPtr list, int listSize){
 
 	srand(time(NULL));
 
-	void* i1 =malloc(100000);
-	void* i2 = malloc(10000);
-	i1 = (int*)20;
-	i2 = (int*)54;
-	SLInsert(list, i1);
-	SLInsert(list, i2);
-
-
-
+	void* i1 =malloc(sizeof(int));
+	int i;
+	void* n;	
 	
-//	for (i = 0; i < listSize; i++){
-//		i1 = rand() % 50;
-//		SLInsert(list, i1);
-//	}
+	for (i = 0; i < listSize; i++){
+		n = (rand() % 50); //throwing warning here, needs to be void or something
+		i1 = n;
+		
+		SLInsert(list, i1);
+	}
 
+}
+
+void printList(SortedListPtr list){
+
+
+	SLNodePtr ptr = list->head;
+	int i=0;
+	for(ptr = list->head; ptr != NULL; ptr = ptr->next){
+		i++;
+		printf("%d: %d\n", i, ptr->data) ;
+	}
 }
 
 int main()
 {
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
-	
-	//SLInsert(list, (void*)5); //cast as int to make compiler happy
-
-	//printf("%d\n", (int)list->head->data);
-
 	buildList(list, 10);
+	printList(list);
 
-
-//	void *data = malloc(sizeof(list->head->data));
-	//data = list->head->data;
-
-	//printf("%d\n", *((int*)data));
+	SLDestroy(list);
 
 	return 0;
 
