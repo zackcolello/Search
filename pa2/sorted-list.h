@@ -6,6 +6,23 @@
 
 #include <stdlib.h>
 
+/*
+ *  * When your sorted list is used to store objects of some type, since the
+ *   * type is opaque to you, you will need a comparator function to order
+ *    * the objects in your sorted list.
+ *     *
+ *      * You can expect a comparator function to return -1 if the 1st object is
+ *       * smaller, 0 if the two objects are equal, and 1 if the 2nd object is
+ *        * smaller.
+ *         *
+ *          * Note that you are not expected to implement any comparator or destruct
+ *           * functions.  You will be given a comparator function and a destruct
+ *            * function when a new sorted list is created.
+ *             */
+
+
+typedef int (*CompareFuncT)( void *, void * );
+typedef void (*DestructFuncT)( void * );
 
 
 
@@ -24,8 +41,8 @@ typedef struct SLNode* SLNodePtr;
 struct SortedList
 {
 	SLNodePtr head;
-	int (*compareF)(void*, void *);
-	void (*destroyF)(void *);
+	CompareFuncT compare;
+	DestructFuncT destroy;
 
 
 };
@@ -41,23 +58,6 @@ struct SortedListIterator
 };
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
-
-/*
- *  * When your sorted list is used to store objects of some type, since the
- *   * type is opaque to you, you will need a comparator function to order
- *    * the objects in your sorted list.
- *     *
- *      * You can expect a comparator function to return -1 if the 1st object is
- *       * smaller, 0 if the two objects are equal, and 1 if the 2nd object is
- *        * smaller.
- *         *
- *          * Note that you are not expected to implement any comparator or destruct
- *           * functions.  You will be given a comparator function and a destruct
- *            * function when a new sorted list is created.
- *             */
-
-typedef int (*CompareFuncT)( void *, void * );
-typedef void (*DestructFuncT)( void * );
 
 /*
  *  * SLCreate creates a new, empty sorted list.  The caller must provide

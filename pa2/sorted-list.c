@@ -39,10 +39,13 @@
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	
 	
-	SortedListPtr sortedList = NULL;
-	sortedList= (struct SortedList*) malloc(sizeof(struct SortedList));
-	sortedList->compareF = cf;
-	sortedList->destroyF = df;
+	SortedListPtr sortedList;
+//	sortedList= (struct SortedList*) malloc(sizeof(struct SortedList));
+	sortedList= malloc(sizeof(struct SortedList));
+	
+
+	sortedList->compare = cf;
+	sortedList->destroy = df;
 
 	if(cf != NULL && df != NULL){
 		return sortedList;
@@ -60,7 +63,7 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 void SLDestroy(SortedListPtr list){
 
 	SLNodePtr target, temp;
-	list->destroyF = NULL;
+	list->destroy = NULL;
 	
 	if(list->head==NULL){
 		free(list);
@@ -72,7 +75,7 @@ void SLDestroy(SortedListPtr list){
 
 	while(target!=NULL){
 		temp=target->next;
-		list->destroyF(temp->data);
+		list->destroy(temp->data);
 		free(temp);
 		target=temp;
 
@@ -107,6 +110,8 @@ int SLInsert(SortedListPtr list, void *newObj){
 	newNode= malloc(sizeof(struct SLNode));
 	newNode->refCount = 0;
 	newNode->next = NULL;
+
+	newNode->data = malloc(100000);
 	newNode->data = newObj; 
 
 	SLNodePtr temp = list->head;
@@ -116,12 +121,24 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 	if(list->head == NULL){
 		list->head = newNode;
+		printf("%d\n", list->head->data);
 		return 1;
 	}
 
+
+
+		printf("got to right before while loop in SLInsert\n");
+		
 	while(temp != NULL){
 
-		cmp = list->compareF(newNode->data, temp->data);
+		printf("newNodes data is %d\n", newNode->data);
+
+
+
+		cmp = list->compare(newNode->data, temp->data);
+	//	cmp = list->compare(newObj, (temp->data));
+
+		printf("got past cmp\n");
 
 		if(cmp > 0){ //must insert newNode now
 			
@@ -178,7 +195,7 @@ int SLRemove(SortedListPtr list, void *newObj){
 	int cmp;
 
 	while(temp!=NULL){
-	cmp=list->compareF(temp->data,newObj);
+	cmp=list->compare(temp->data,newObj);
 
 		if(cmp<0){
 			return 0;	//object is not in list

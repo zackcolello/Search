@@ -1,5 +1,5 @@
 /*
- * sorted-list.c
+ *main.c
  */
 
 #include	<string.h>
@@ -9,9 +9,12 @@
 
 int compareInts(void *p1, void *p2)
 {
+	printf("p1 is %d and p2 is %d \n", p1, p2);
+
 	int i1 = *(int*)p1;
 	int i2 = *(int*)p2;
 
+	printf("about to return from compareInts\n");
 	return i1 - i2;
 }
 
@@ -45,29 +48,38 @@ void destroyBasicTypeNoAlloc(void *p) {
 }
 
 
+void buildList(SortedListPtr list, int listSize){
+
+	int randNum;
+	int i;
+	srand(time(NULL));
+
+	void* i1 =(int*)malloc(sizeof(int));
+	
+	
+	for (i = 0; i < listSize; i++){
+		i1 = rand() % 50;
+		SLInsert(list, i1);
+	}
+
+}
+
 int main()
 {
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
 	
-	SLInsert(list, (void*)5); //cast as int to make compiler happy
+	//SLInsert(list, (void*)5); //cast as int to make compiler happy
 
-	printf("%d\n", (int)list->head->data);
+	//printf("%d\n", (int)list->head->data);
+
+	buildList(list, 10);
+
 
 //	void *data = malloc(sizeof(list->head->data));
 	//data = list->head->data;
 
-
-
-	//printf("%d\n", (int)data);
-
-
 	//printf("%d\n", *((int*)data));
 
-	//struct SLNode node;
-	//node.data = *((int*)5);
-	//node.data = 5;
-	//printf("node's data is %d\n", *((int*)node.data));
-	
 	return 0;
 
 }
