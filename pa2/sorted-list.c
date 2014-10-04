@@ -119,7 +119,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 	
 	newNode->data = newObj;
-	printf("new obj is %d\n", newObj);
+
 	
 	SLNodePtr temp = list->head;
 	SLNodePtr tempPrev = NULL;
@@ -134,10 +134,14 @@ int SLInsert(SortedListPtr list, void *newObj){
 		
 	while(temp != NULL){
 
-		cmp = list->compare(&(newNode->data), &(temp->data));
+		if(list->type == 1){ //Type is int, compare ints
+			cmp = list->compare(&(newNode->data), &(temp->data));
+		}else if(list->type == 3 || list->type == 2){
+			cmp = list->compare((newNode->data), (temp->data));
+		}
+
 
 		if(cmp > 0){ //must insert newNode now
-		
 
 			if(tempPrev == NULL){ //newNode must become head node
 				list->head = newNode;
@@ -150,9 +154,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 				newNode->next = temp;
 				tempPrev->next = newNode;	
-				//printf("before ref count is %d\n", newNode->refCount);
 				newNode->refCount = (newNode->refCount) +1;
-				//printf("after ref count is %d", newNode->refCount);
 
 				return 1;
 			}

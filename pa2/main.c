@@ -68,6 +68,22 @@ void buildList(SortedListPtr list, int listSize, int type){
 	99.9, 77.3, 54.2, 52.3, 2.54,
 	};	
 
+	char StringArray[10][100];
+
+	strcpy(StringArray[0], "word");
+	strcpy(StringArray[1], "hello");
+	strcpy(StringArray[2], "hippo");
+	strcpy(StringArray[3], "banapple");
+	strcpy(StringArray[4], "test");
+	strcpy(StringArray[5], "file");
+	strcpy(StringArray[6], "iPhone");
+	strcpy(StringArray[7], "google");
+	strcpy(StringArray[8], "tsunami");
+	strcpy(StringArray[9], "butterfly");
+	
+
+
+
 
 	for (i = 0; i < listSize; i++){
 
@@ -79,12 +95,13 @@ void buildList(SortedListPtr list, int listSize, int type){
 	
 		}else if(type == 2){ //fill list with one double array
 
-
 			d1 = &(DoubleList1[i]);	
-			SLInsert(list, (void*)2.58);			
+			SLInsert(list, &d1);			
 
-			
-	
+		}else if(type == 3){ //fill list with strings
+
+			SLInsert(list, StringArray[i]);
+
 		}
 	}
 
@@ -106,9 +123,7 @@ void printList(SortedListPtr list){
 			printf("%d: Data is %s, refCount %d\n", i, ptr->data, ptr->refCount);
 		}else{
 			printf("%d: Data is %p, refCount %d\n", i, ptr->data, ptr->refCount);
-
 		}
-
 
 
 	}
@@ -119,40 +134,21 @@ int main()
 {
 	SortedListPtr list = (SLCreate(compareInts, destroyBasicTypeNoAlloc));
 	
-	printf("enter type of data in list: 1) int, 2) double, 3) string, or 4) other\n");
+	printf("enter type of data in list: 1 = int, 2 = double, or 3 = string.\n");
 
 	//scan user input
 	scanf("%d", &(list->type));
 	
 
-	buildList(list, 20, list->type);
-		
-	printList(list);
-
+	buildList(list, 10, list->type);
 
 	SortedListIteratorPtr iter = SLCreateIterator(list);
 	int iterdata= SLGetItem(iter);
 
-//	printf("iters head is %d\n", iter->ptr->data);	
-	
 	SLNodePtr temp = malloc(sizeof(struct SLNode));
 	temp = iter->ptr;	
 
-	//Testing iterator
-/*	while(temp!=NULL){
-
-		iterdata = temp->data;
-		temp=(SLNextItem(iter));	
-		
-		printf("iter points to %d\n",iterdata);
-	}
-*/
-
-	void* x = malloc(1000);
-	x = 13;
-//	SLRemove(list, x);
 	printList(list);	
-
 	SLDestroy(list);
 
 	return 0;
