@@ -1,13 +1,10 @@
 CC = gcc
 CCFLAGS = -g
 
-all: index tokenizer
+all: index
 
-index: index.o
-	$(CC) $(CCFLAGS) -o index index.c
-
-tokenizer: tokenizer.o
-	$(CC) $(CCFLAGS) -o tokenizer tokenizer.c
+index: index.c
+	$(CC) $(CCFLAGS) -o index index.c tokenizer.c
 
 clean:
 	-rm -f tokenizer.o
