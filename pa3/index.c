@@ -7,6 +7,8 @@
 #include "index.h"
 #include "tokenizer.h"
 #include "sorted-list.h"
+#include <sys/types.h>
+#include <dirent.h>
 
 
 
@@ -56,7 +58,7 @@ int readFile(const char* filename){
 		buffer = TKGetNextToken(tok);
 
 		if(strlen(buffer) > 0){
-			printf("%s\n", buffer);
+			printf("%s\n", buffer);	//insert into sorted-list here.
 
 		
 		}
@@ -71,6 +73,42 @@ int readFile(const char* filename){
 
 }
 
+int directoryTraverse(const char* parentDir){
+	
+	DIR *dir;
+	struct dirent *dent; //from dirent.h
+	printf("parentDir is %s\n", parentDir);
+	dir = opendir(parentDir);
+	
+	if (dir == NULL){ // parentDir is not a directory, parentDir is a file.
+		printf("dir is Null\n");
+
+		readFile(parentDir);
+
+	
+			
+	}else{
+		while((dent=readdir(dir))!=NULL){
+			
+			if((strcmp(dent->d_name,".")==0)||(strcmp(dent->d_name,"..")==0)){
+				continue;
+			}
+			else{
+				directoryTraverse(dent->d_name);
+				printf("dent name is %s\n",dent->d_name);
+			}
+		}
+	
+		closedir(dir);;
+	}
+
+
+	return 1;
+
+
+}
+
+
 int main(int argc, char **argv){
 
 	if(argc != 3){
@@ -79,8 +117,8 @@ int main(int argc, char **argv){
 
 	}
 
-	readFile(argv[2]);	
-
+	//readFile(argv[2]);	
+	directoryTraverse(argv[2]);
 
 
 	return 0;
