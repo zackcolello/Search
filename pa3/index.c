@@ -59,7 +59,7 @@ int readFile(const char* filename){
 
 		if(strlen(buffer) > 0){
 			printf("%s\n", buffer);	//insert into sorted-list here.
-
+			SLInsert(buffer);
 		
 		}
 

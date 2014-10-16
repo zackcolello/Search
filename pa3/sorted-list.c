@@ -1,17 +1,24 @@
-//here we will contain our sorted list and/or hash table.
-//Maybe here we will have insert functions and stuff like that
+//sorted-list.c//
+#include "sorted-list.h"
+#include "tokenizer.h"
+#include "index.h"
+
+#include <stdlib.h>
+#include <stdio.h>
 
 
-int main (int argc, char **argv){
 
-
-
-
-printf("This is sorted list\n");
-
+void SLInsert(char* string){
 
 
 
 
 
 }
+
+/*int main (int argc, char **argv){
+
+	printf("This is sorted list\n");
+
+}
+*/

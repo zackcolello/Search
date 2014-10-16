@@ -4,7 +4,7 @@ CCFLAGS = -g
 all: index
 
 index: index.c
-	$(CC) $(CCFLAGS) -o index index.c tokenizer.c
+	$(CC) $(CCFLAGS) -o index index.c tokenizer.c sorted-list.c
 
 clean:
 	-rm -f tokenizer.o

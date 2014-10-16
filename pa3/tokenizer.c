@@ -6,21 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "tokenizer.h"
 
-/*
- *  * Tokenizer type.  You need to fill in the type as part of your implementation.
- *   */
-
-struct TokenizerT_ {
-
-char* delimiters;
-char* input; 
-};
-
-typedef struct TokenizerT_ TokenizerT;
-
-
-int isDelimiter (char c, TokenizerT *tokenizer);
 char *indexPointer; //to be used to track where tokens are in the second argument
 
 /*
@@ -140,33 +127,3 @@ int isDelimiter(char c, TokenizerT *tokenizer){
 	return 0;	//character c was not found to be a delimiter. Return 0 for false
 
 }
-
-
-/*
- *  * main will have two string arguments (in argv[1] and argv[2]).
- *   * The first string contains the separator characters.
- *    * The second string contains the tokens.
- *     * Print out the tokens in the second string in left-to-right order.
- *      * Each token should be printed on a separate line.
- *       */
-/*
-char* usedtobemain(int argc, char *string) {
-
-	TokenizerT *tokenizer;
-
-	tokenizer = TKCreate(string);
-
-	indexPointer = tokenizer->input; //indexPointer now holds the input string to be used in while loop
-	char* String;
-
-		while (indexPointer != '\0'){ //We traverse tokenizer.input with indexPointer as we call TKGetNextToken
-	
-			String = String + TKGetNextToken(tokenizer); 
-
-		}	
-		return String;
-		
-		TKDestroy(tokenizer);
-
-  	return 0;
-}*/
