@@ -25,4 +25,4 @@ struct List {
 
 };
 
-void SLInsert(struct tokenNode *head, char* string, const char* path);
+void SLInsert(struct List *list, char* string, const char* path);

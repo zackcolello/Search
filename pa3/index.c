@@ -12,7 +12,7 @@
 
 
 
-int readFile(struct tokenNode *head, const char* filename){
+int readFile(struct List *list, const char* filename){
 
 	int fileSize = 0;
 	char* str;
@@ -50,8 +50,6 @@ int readFile(struct tokenNode *head, const char* filename){
 
 
 	indexPointer = tok->input;
-	
-	
 
 	while (indexPointer != '\0'){
 
@@ -59,7 +57,7 @@ int readFile(struct tokenNode *head, const char* filename){
 
 		if(strlen(buffer) > 0){
 			printf("%s\n", buffer);	//insert into sorted-list here.
-			SLInsert(head, buffer, filename);
+			SLInsert(list, buffer, filename);
 		
 		}
 
@@ -73,20 +71,20 @@ int readFile(struct tokenNode *head, const char* filename){
 
 }
 
-int directoryTraverse(struct tokenNode *head, const char* parentDir){
+int directoryTraverse(struct List *list, const char* parentDir){
 //add argument to take in char* path, and sorted-list
 
 	DIR *dir;
 	struct dirent *dent; //from dirent.h
+	char* path;
+
 	printf("parentDir is %s\n", parentDir);
 	dir = opendir(parentDir);
 	
 	if (dir == NULL){ // parentDir is not a directory, parentDir is a file.
 		printf("dir is Null\n");
 
-		readFile(head, parentDir);
-
-	
+		readFile(list, parentDir);
 			
 	}else{
 		while((dent=readdir(dir))!=NULL){
@@ -95,12 +93,19 @@ int directoryTraverse(struct tokenNode *head, const char* parentDir){
 				continue;
 			}
 			else{
-				directoryTraverse(head, dent->d_name);
-				printf("dent name is %s\n",dent->d_name);
+				path = (char*)malloc(strlen(parentDir)+strlen(dent->d_name)+2);
+				strcpy(path, parentDir);
+				strcat(path, "/\0");
+				
+				strcat(path, dent->d_name);
+				path[strlen(path)]= '\0';
+				directoryTraverse(list, path);
+				free(path);	
+
 			}
 		}
 	
-		closedir(dir);;
+		closedir(dir);
 	}
 
 
@@ -115,15 +120,18 @@ int main(int argc, char **argv){
 	if(argc != 3){
 		printf("Error: invalid number of arguments\n");
 		return -1;
-
 	}
 
-	struct tokenNode *head = NULL;
+	struct List *list = NULL;
+	list = (struct List*)malloc(sizeof(struct List));	
+
+struct tokenNode *head = NULL;
+	list->head = head;
 
 	//readFile(argv[2]);	
-	directoryTraverse(head, argv[2]);
+	directoryTraverse(list, argv[2]);
 
-//	printf("head from main is %s\n", head->token);
+//	printf("head from main is %s\n", list->head->token);
 //	printList(head);
 
 	return 0;

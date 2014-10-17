@@ -8,9 +8,11 @@
 
 
 
-void SLInsert(struct tokenNode *head, char* string, const char* path){
+void SLInsert(struct List *list, char* string, const char* path){
 
-	if (head == NULL){ //Node is first, create head
+	
+
+	if (list->head == NULL){ //Node is first, create head
 		
 		struct tokenNode *newHeadNode;
 		newHeadNode = (struct tokenNode*)malloc(sizeof(struct tokenNode));	
