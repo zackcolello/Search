@@ -5,8 +5,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+struct List* SLCreate(){
+	struct List *newSL;
+	newSL = (struct List*)malloc(sizeof(struct List));
+	newSL->head=NULL;
 
 
+}
 
 void SLInsert(struct List *list, char* string, const char* path){
 
@@ -17,16 +24,21 @@ void SLInsert(struct List *list, char* string, const char* path){
 		struct tokenNode *newHeadNode;
 		newHeadNode = (struct tokenNode*)malloc(sizeof(struct tokenNode));	
 
-		newHeadNode->token = string;
+		newHeadNode->token = (char*)malloc(strlen(string)+1);
+		strcpy(newHeadNode->token, string);
 
 		struct fileNode *newFileNode; //create new node for this file
 		newFileNode = (struct fileNode*)malloc(sizeof(struct fileNode));
-		newFileNode->path = path;
+		newFileNode->path =(char*)malloc(strlen(path)+1);
+		strcpy(newFileNode->path, path);
 
 		newHeadNode->child = newFileNode;
 		newFileNode->count = 1;
+		
+		list->head=newHeadNode;
+		printf("newTokenNode is %s, newFileNode is %s\n", newHeadNode->token, newFileNode->path);
 
-	//	printf("newTokenNode is %s, newFileNode is %s\n", newHeadNode->token, newFileNode->path);
+		printf("head from SLinsert is %s\n", list->head->token);
 
 		return;
 	}else{
@@ -36,6 +48,7 @@ void SLInsert(struct List *list, char* string, const char* path){
 
 	}
 }
+
 
 void printList(struct tokenNode *head){
 

@@ -7,7 +7,7 @@
 
 
 struct fileNode {
-	const char* path;
+	char* path;
 	int count;
 	struct fileNode *child; //if node is not head node, will have a child
 
@@ -24,5 +24,6 @@ struct List {
 	struct tokenNode *head;
 
 };
-
+struct List* SLCreate();
 void SLInsert(struct List *list, char* string, const char* path);
+void printList(struct tokenNode *head);
