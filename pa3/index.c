@@ -12,7 +12,7 @@
 
 
 
-int readFile(const char* filename){
+int readFile(struct tokenNode *head, const char* filename){
 
 	int fileSize = 0;
 	char* str;
@@ -34,7 +34,7 @@ int readFile(const char* filename){
 	
 	while((c = fgetc(filePtr)) != EOF){
 
-		str[i] = c;
+		str[i] = tolower(c);
 		i++;
 
 
@@ -59,7 +59,7 @@ int readFile(const char* filename){
 
 		if(strlen(buffer) > 0){
 			printf("%s\n", buffer);	//insert into sorted-list here.
-			SLInsert(buffer);
+			SLInsert(head, buffer, filename);
 		
 		}
 
@@ -73,8 +73,9 @@ int readFile(const char* filename){
 
 }
 
-int directoryTraverse(const char* parentDir){
-	
+int directoryTraverse(struct tokenNode *head, const char* parentDir){
+//add argument to take in char* path, and sorted-list
+
 	DIR *dir;
 	struct dirent *dent; //from dirent.h
 	printf("parentDir is %s\n", parentDir);
@@ -83,7 +84,7 @@ int directoryTraverse(const char* parentDir){
 	if (dir == NULL){ // parentDir is not a directory, parentDir is a file.
 		printf("dir is Null\n");
 
-		readFile(parentDir);
+		readFile(head, parentDir);
 
 	
 			
@@ -94,7 +95,7 @@ int directoryTraverse(const char* parentDir){
 				continue;
 			}
 			else{
-				directoryTraverse(dent->d_name);
+				directoryTraverse(head, dent->d_name);
 				printf("dent name is %s\n",dent->d_name);
 			}
 		}
@@ -117,9 +118,13 @@ int main(int argc, char **argv){
 
 	}
 
-	//readFile(argv[2]);	
-	directoryTraverse(argv[2]);
+	struct tokenNode *head = NULL;
 
+	//readFile(argv[2]);	
+	directoryTraverse(head, argv[2]);
+
+//	printf("head from main is %s\n", head->token);
+//	printList(head);
 
 	return 0;
 }

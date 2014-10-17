@@ -4,8 +4,10 @@
 #include <stdlib.h>
 
 
+
+
 struct fileNode {
-	char* path;
+	const char* path;
 	int count;
 	struct fileNode *child; //if node is not head node, will have a child
 
@@ -18,4 +20,9 @@ struct tokenNode {
 	struct fileNode *child;
 };
 
-void SLInsert(char* string);
+struct List {
+	struct tokenNode *head;
+
+};
+
+void SLInsert(struct tokenNode *head, char* string, const char* path);
