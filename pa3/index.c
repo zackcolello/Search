@@ -37,7 +37,6 @@ int readFile(struct List *list, const char* filename){
 		str[i] = tolower(c);
 		i++;
 
-	//printf("head from main is %s\n", list->head->token)
 	}
 
 	str[i] = '\0';
@@ -56,7 +55,6 @@ int readFile(struct List *list, const char* filename){
 		buffer = TKGetNextToken(tok);
 
 		if(strlen(buffer) > 0){
-			//printf("%s\n", buffer);	//insert into sorted-list here.
 			SLInsert(list, buffer, filename);
 		
 		}
@@ -78,11 +76,9 @@ int directoryTraverse(struct List *list, const char* parentDir){
 	struct dirent *dent; //from dirent.h
 	char* path;
 
-	//printf("parentDir is %s\n", parentDir);
 	dir = opendir(parentDir);
 	
 	if (dir == NULL){ // parentDir is not a directory, parentDir is a file.
-	//	printf("dir is Null\n");
 
 		readFile(list, parentDir);
 			
@@ -127,10 +123,7 @@ int main(int argc, char **argv){
 	//readFile(argv[2]);	
 	directoryTraverse(list, argv[2]);
 
-
-	printf("head from main is %s\n", list->head->token);
-	printf("head from main is %s\n", list->head->child->path);
-//printList(head);
+	printList(list->head);
 
 	return 0;
 }
