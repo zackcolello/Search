@@ -26,4 +26,4 @@ struct List {
 };
 struct List* SLCreate();
 void SLInsert(struct List *list, char* string, const char* path);
-void printList(struct tokenNode *head);
+void printList(struct List *list);

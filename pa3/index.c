@@ -55,8 +55,8 @@ int readFile(struct List *list, const char* filename){
 		buffer = TKGetNextToken(tok);
 
 		if(strlen(buffer) > 0){
+
 			SLInsert(list, buffer, filename);
-		
 		}
 
 		free(buffer);
@@ -123,7 +123,7 @@ int main(int argc, char **argv){
 	//readFile(argv[2]);	
 	directoryTraverse(list, argv[2]);
 
-	printList(list->head);
+	printList(list);
 
 	return 0;
 }

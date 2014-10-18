@@ -17,7 +17,6 @@ struct List* SLCreate(){
 
 void SLInsert(struct List *list, char* string, const char* path){
 
-	printf("slinsert %s from %s\n", string, path);	
 
 	if (list->head == NULL){ //Node is first, create head
 		
@@ -32,11 +31,11 @@ void SLInsert(struct List *list, char* string, const char* path){
 		newFileNode->path =(char*)malloc(strlen(path)+1);
 		strcpy(newFileNode->path, path);
 
+		newHeadNode->sibling = NULL;
 		newHeadNode->child = newFileNode;
 		newFileNode->count = 1;
-		
+		newFileNode->child = NULL;	
 		list->head=newHeadNode;
-
 
 		return;
 	}
@@ -54,7 +53,7 @@ void SLInsert(struct List *list, char* string, const char* path){
 			while(tempf!=NULL){
 				if(strcmp(tempf->path, path)==0){ //found matching fileNode, count++
 					tempf->count++;
-					return ;
+					return;
 
 				}
 				else {
@@ -72,11 +71,11 @@ void SLInsert(struct List *list, char* string, const char* path){
 
 			prevf->child = newFileNode;
 			newFileNode->count = 1;
-		
+			newFileNode->child = NULL;
+	
 			return;
 
 		}else if(strcmp(tempt->token, string) >0){ //Found place to put new tokenNode
-
 
 			struct tokenNode *newTNode;
 			newTNode = (struct tokenNode*)malloc(sizeof(struct tokenNode));	
@@ -91,7 +90,8 @@ void SLInsert(struct List *list, char* string, const char* path){
 		
 			newTNode->child = newFileNode;
 			newFileNode->count = 1;
-		
+			newFileNode->child = NULL;
+	
 			if(prevt==NULL){
 				list->head=newTNode;
 			}else{
@@ -132,12 +132,15 @@ void SLInsert(struct List *list, char* string, const char* path){
 }
 
 
-void printList(struct tokenNode *head){
+void printList(struct List *list){
 
-	struct tokenNode *tempT = NULL;
-	struct fileNode *tempF = NULL;
-	tempT = head;
-	tempF = head->child;
+	struct tokenNode *tempT;
+	struct fileNode *tempF;
+
+
+
+	tempT = list->head;
+	tempF = tempT->child;
 
 
 	while(tempT){
@@ -145,14 +148,18 @@ void printList(struct tokenNode *head){
 		printf("%s\n", tempT->token);
 
 		while(tempF){
-			printf("%s, %d\n", tempF->path, tempF->count);	
-			tempF=tempF->child;
+			printf("\t%s, %d\n", tempF->path, tempF->count);	
+			tempF = tempF->child;
 
 
 		}
-		tempT=tempT->sibling;
+		
+		tempT = tempT->sibling;
+		
+		if(tempT!= NULL){
+		tempF = tempT->child;
+		}
 	}
-
 
 
 }
