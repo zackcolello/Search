@@ -123,7 +123,7 @@ int main(int argc, char **argv){
 	//readFile(argv[2]);	
 	directoryTraverse(list, argv[2]);
 
-	printList(list);
+	writefile(argv[1],list);
 
 	return 0;
 }
