@@ -60,12 +60,12 @@ void writefile(const char* outputFile, struct List *ls){
 		fprintf(fp,"<list> %s\n", tempT->token);
 
 		while(tempF){
-			fprintf(fp,"\t%s, %d\n", tempF->path, tempF->count);    
+			fprintf(fp,"%s, %d\n", tempF->path, tempF->count);    
 			tempF = tempF->child;
 
 		}
 
-		fprintf(fp,"</list>\n\n");
+		fprintf(fp,"</list>\n");
 
 		tempT = tempT->sibling;
 
