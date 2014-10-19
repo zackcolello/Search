@@ -4,6 +4,4 @@
 #define index_h
 #include <stdlib.h>
 
-
-
 #endif

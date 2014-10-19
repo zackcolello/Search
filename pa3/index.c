@@ -1,5 +1,5 @@
-//here we will have our actual indexing/placing into our list.
 //Index.c//
+//This .c file contains the main for our code and the functions to read, write, and traverse files.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,9 +8,72 @@
 #include "tokenizer.h"
 #include "sorted-list.h"
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <dirent.h>
 
 
+void writefile(const char* outputFile, struct List *ls){
+
+	FILE *fp;
+	
+	struct stat fileStat; //check if output file exists, warn user about overwriting
+	char answer;
+	
+	if(stat(outputFile, &fileStat) == 0){
+		
+		printf("WARNING: The output file you have specified, %s, already exists in this directory.\nAre you sure you want to overwrite this file? Enter (y or n):\n", outputFile);
+		
+		scanf("%c", &answer);
+
+		if(answer == 'y'){
+			printf("Overwriting.\n");	
+			//continue and overwrite file
+		
+		}else if(answer == 'n'){
+		
+			printf("The file has not been overwritten, exiting program.\n");
+			return;		
+
+		}else{
+		
+			printf("Not valid input, expecting character 'y' or 'n'. Exiting program.\n");
+			return;
+		}
+
+	}
+
+
+
+	fp = fopen(outputFile,"w");
+
+	struct tokenNode *tempT;
+	struct fileNode *tempF;
+
+
+
+	tempT = ls->head;
+	tempF = tempT->child;
+
+
+	while(tempT){
+
+		fprintf(fp,"<list> %s\n", tempT->token);
+
+		while(tempF){
+			fprintf(fp,"\t%s, %d\n", tempF->path, tempF->count);    
+			tempF = tempF->child;
+
+		}
+
+		fprintf(fp,"</list>\n\n");
+
+		tempT = tempT->sibling;
+
+		if(tempT!= NULL){
+			tempF = tempT->child;
+		}
+	}
+}
 
 int readFile(struct List *list, const char* filename){
 
@@ -76,8 +139,11 @@ int directoryTraverse(struct List *list, const char* parentDir){
 	struct dirent *dent; //from dirent.h
 	char* path;
 
+
 	dir = opendir(parentDir);
-	
+
+
+
 	if (dir == NULL){ // parentDir is not a directory, parentDir is a file.
 
 		readFile(list, parentDir);
@@ -118,10 +184,18 @@ int main(int argc, char **argv){
 		return -1;
 	}
 
-	struct List *list = SLCreate();
+	struct List *list = SLCreate(); //create list to store words
 
-	//readFile(argv[2]);	
-	directoryTraverse(list, argv[2]);
+	struct stat fileStat; //check if directory or file to be indexed exists
+	if(stat(argv[2], &fileStat) == 0){
+
+		directoryTraverse(list, argv[2]);
+
+
+	}else{
+		fprintf(stderr, "Directory or file you are trying to index does not exist.\n");	
+		return -1;
+	}	
 
 	writefile(argv[1],list);
 

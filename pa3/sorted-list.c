@@ -164,43 +164,4 @@ void printList(struct List *list){
 
 }
 
-void writefile(const char* outputFile, struct List *ls){
 
-	FILE *fp;
-	fp = fopen(outputFile,"w");
-	
-	struct tokenNode *tempT;
-	struct fileNode *tempF;
-
-
-
-	tempT = ls->head;
-	tempF = tempT->child;
-
-
-	while(tempT){
-
-		fprintf(fp,"<list> %s\n", tempT->token);
-
-		while(tempF){
-			fprintf(fp,"\t%s, %d\n", tempF->path, tempF->count);	
-			tempF = tempF->child;
-
-
-		}
-		fprintf(fp,"</list>\n\n");
-		
-		tempT = tempT->sibling;
-		
-		if(tempT!= NULL){
-		tempF = tempT->child;
-		}
-	}
-
-
-
-
-
-
-
-}
