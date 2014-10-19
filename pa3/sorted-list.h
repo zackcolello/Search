@@ -10,6 +10,7 @@ struct fileNode {
 	char* path;
 	int count;
 	struct fileNode *child; //if node is not head node, will have a child
+	struct fileNode *parent;
 
 };
 

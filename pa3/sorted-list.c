@@ -45,6 +45,8 @@ void SLInsert(struct List *list, char* string, const char* path){
 	struct tokenNode *tempt = list->head;
 	struct fileNode *tempf=NULL;
 	struct fileNode *prevf=NULL;
+	struct fileNode *tempf2 = NULL;
+	struct fileNode *prevf2 = NULL;
 
 	while(tempt!=NULL){
 		if(strcmp(tempt->token, string)==0){ //found token, traverse fileNodes
@@ -53,10 +55,43 @@ void SLInsert(struct List *list, char* string, const char* path){
 			while(tempf!=NULL){
 				if(strcmp(tempf->path, path)==0){ //found matching fileNode, count++
 					tempf->count++;
+
+					//check if fileNode needs to be moved up in list
+		
+					if(prevf != NULL){ //tempf is not already first in list
+					
+						if(prevf->count > tempf->count){ //check if tempf needs to be moved up
+							return;
+						}
+				
+						tempf2 = tempt->child;
+	
+						while(tempf2->count > tempf->count && tempf2->child != NULL){
+							prevf2 = tempf2;
+							tempf2 = tempf2->child;
+					
+						}
+
+						//reached a node that has a count = to or less than our temp's count. put it there
+						
+						if(prevf2 == NULL){ //new node needs to be first
+							tempt->child = tempf;
+							prevf->child = tempf->child;
+							tempf->child = tempf2;
+							return;
+
+						}
+
+						prevf2->child = tempf;
+						prevf->child = tempf->child;
+						tempf->child = tempf2;
+					}
+
 					return;
 
 				}
 				else {
+					tempf->parent = prevf;
 					prevf=tempf;
 					tempf=tempf->child;	
 					
