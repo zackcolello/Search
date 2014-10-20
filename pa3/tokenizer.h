@@ -2,7 +2,6 @@
 #include<stdlib.h>
 
 struct TokenizerT_ {
-	char* delimiters;
 	char* input;
 };
 typedef struct TokenizerT_ TokenizerT;

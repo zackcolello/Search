@@ -72,7 +72,10 @@ void writefile(const char* outputFile, struct List *ls){
 		if(tempT!= NULL){
 			tempF = tempT->child;
 		}
+
 	}
+
+	fclose(fp);
 }
 
 int readFile(struct List *list, const char* filename){
@@ -125,9 +128,8 @@ int readFile(struct List *list, const char* filename){
 		free(buffer);
 
 	}
-
-
-
+	TKDestroy(tok);
+	free(str);
 	return 0;
 
 }
@@ -198,6 +200,6 @@ int main(int argc, char **argv){
 	}	
 
 	writefile(argv[1],list);
-
+	destroyList(list);
 	return 0;
 }

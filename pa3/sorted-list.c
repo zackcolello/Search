@@ -199,4 +199,29 @@ void printList(struct List *list){
 
 }
 
+void destroyList(struct List *list){
 
+	struct tokenNode *Tnode, *tempT;
+	struct fileNode *Fnode, *tempF;
+
+	Tnode = list->head;
+
+	while(Tnode){
+		tempT=Tnode;
+		Tnode=Tnode->sibling;
+		Fnode=tempT->child;
+		while(Fnode){
+			tempF=Fnode;
+			Fnode=Fnode->child;
+			free(tempF->path);
+			free(tempF);
+
+
+		}
+		free(tempT->token);
+		free(tempT);
+		
+	}
+	free(list);
+
+}

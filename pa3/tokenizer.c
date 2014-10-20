@@ -46,7 +46,7 @@ TokenizerT *TKCreate(char *ts) {
  *      */
 
 void TKDestroy(TokenizerT *tk) {
-	
+
 	free(tk);
 	tk = NULL;
 
@@ -93,7 +93,7 @@ char *TKGetNextToken(TokenizerT *tk) {
 
 		if(b == 0){ //not delimiter, add to BigBuffer
 			
-			BigBuffer[BBIndex] = c;
+			BigBuffer[BBIndex]=c;
 			BBIndex++;
 
 			
