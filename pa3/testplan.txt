@@ -1,5 +1,5 @@
 testplan.txt
-//Written by Zack Colello and Anna Genke
+//Written by Zack Colello and Anna Genke.
 
 Error Checking:
 
