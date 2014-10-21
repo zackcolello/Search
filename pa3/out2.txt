@@ -1,0 +1,81 @@
+<list> a
+t2.txt, 1
+</list>
+<list> are
+t2.txt, 2
+</list>
+<list> being
+t2.txt, 1
+</list>
+<list> breaks
+t2.txt, 1
+</list>
+<list> case
+t2.txt, 1
+</list>
+<list> concludes
+t2.txt, 1
+</list>
+<list> done
+t2.txt, 1
+</list>
+<list> duplicate
+t2.txt, 1
+</list>
+<list> etc
+t2.txt, 1
+</list>
+<list> file
+t2.txt, 1
+</list>
+<list> in
+t2.txt, 1
+</list>
+<list> is
+t2.txt, 1
+</list>
+<list> line
+t2.txt, 1
+</list>
+<list> lines
+t2.txt, 1
+</list>
+<list> many
+t2.txt, 1
+</list>
+<list> on
+t2.txt, 1
+</list>
+<list> over
+t2.txt, 1
+</list>
+<list> punctuation
+t2.txt, 1
+</list>
+<list> sensitivity
+t2.txt, 1
+</list>
+<list> some
+t2.txt, 1
+</list>
+<list> test
+t2.txt, 4
+</list>
+<list> testing
+t2.txt, 2
+</list>
+<list> tests
+t2.txt, 1
+</list>
+<list> the
+t2.txt, 1
+</list>
+<list> this
+t2.txt, 3
+</list>
+<list> we
+t2.txt, 1
+</list>
+<list> words
+t2.txt, 3
+</list>

@@ -1,1 +1,70 @@
-//Here we will talk about our fantastic plan to get a 100
+testplan.txt
+//Written by Zack Colello and Anna Genke
+
+Error Checking:
+
+Test 1: Invalid arguments
+
+	input: ./index out.txt
+
+	output: Error: invalid number of arguments
+
+Test2: Nonexistent directory/file input
+
+	input: ./index out.txt Directory5
+
+	output: Directory or file you are trying to index does not exist.
+
+
+Single file testing:
+
+Test 1: Tests for punctuation, duplicate words, line breaks, etc
+
+	input: ./index out2.txt t2.txt
+	output: (No response, but created out2.txt file with output)
+
+Test 2: Overwriting files warning
+
+	input: ./index out2.txt t.txt
+	output: WARNING: The output file you have specified, out2.txt, already
+	exists in this directory. Are you sure you want to overwrite this file? Enter
+	(y or n):
+
+	input: n
+	output: The file has not been overwritten, exiting program.
+
+Test 3: Input and output file are the same
+
+	input: ./index t2.txt t2.txt
+	output: input arguments are the same file. Cannot overwrite. Exiting
+	Indexer.
+
+Directory testing:
+
+Test 1: Attempting to write files to directory
+	
+	input: ./index testDir testDir2
+	output: You cannot write to a directory. Exiting indexer.
+
+Test 2: Tests 2 layers of directories, including empty directories
+
+	input: ./index dirOut.txt testDir
+	output: (No response, but file dirOut.txt was created)
+
+Test 3: Tests directories that have matching words
+
+	input: ./index dirOut.txt testDir2
+	output: WARNING: The output file you have specified, dirOut.txt,
+	already exists in this directory. Are you sure you want to overwrite this
+	file? Enter (y or n):
+
+	input: y 
+	output: Overwriting.
+	(dirOut.txt now has the output for testDir instead of testDir2)
+
+
+For our large-scale test, we used a directory that contained text files of The
+Great Gatsby and Alice in Wonderland, as well as indexing those two text
+documents by themselves. The resulting output file was about 22
+thousand lines. Our program handled these large test cases with no errors, and
+the output file was correct as expected.

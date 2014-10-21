@@ -1,20 +1,10 @@
 Testing
 words
-over
-some lines
-test this is a test words on test
+over some lines.
+Test this is a test words on test
 
-many test 
+many tests are being done -
+In this file we are testing duplicate words, case sensitivity, punctuation,
+line breaks, etc.  
 
-words on test
-kjfdf 
-
-
-jfdij 
-
-
-mf n
- jndfkdjf
-
-
-ikc
+This concludes the test.

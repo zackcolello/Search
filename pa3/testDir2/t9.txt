@@ -1,3 +1,4 @@
 jon test
-
+I am on a computer
+This is a text file
 testing this word test
