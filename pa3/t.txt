@@ -1,3 +1,0 @@
-This is a smaller test file.
-It is not as long as t2.txt.
-We will use this to test our program.
