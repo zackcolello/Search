@@ -14,12 +14,19 @@ int main(int argc, char **argv){
 	//TODO: check if inputted inverse index file is valid
 	//if file is valid, use index to make list from file
 	
-	//keep looping until input is 'q'
-	char* input[100]; //need to make sure input does not go out of bounds
+	char* input= malloc(1000); //need to make sure input does not go out of bounds
 
-	while(scanf("%s", &input) && input != 'q'){ //need to fix input != 'q'
-		//just used for debugging
-		//	printf("input is: %s\n", input);
+	//keep looping until input is 'q'
+
+	while(fgets(input, 1000, stdin)){ //need to fix input != 'q'
+		
+		//can't get it to break out, this doesn't work. 
+		if (strcmp(input, "q") == 0){
+			printf("Breaking\n");
+			break;
+		}
+
+		printf("input is: %s\n", input);
 
 	}
 
