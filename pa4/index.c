@@ -200,7 +200,7 @@ int directoryTraverse(struct List *list, const char* parentDir){
 
 }
 
-
+/* just commenting this out for now
 int main(int argc, char **argv){
 
 	if(argc != 3){
@@ -251,3 +251,4 @@ int main(int argc, char **argv){
 	destroyList(list);
 	return 0;
 }
+*/
