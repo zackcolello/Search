@@ -19,6 +19,9 @@ int main(int argc, char **argv){
 	//keep looping until input is 'q'
 
 	while(fgets(input, 1000, stdin)){ //need to fix input != 'q'
+
+		//put terminating bit at end of word, so we can quit with just 'q'
+		input[strlen(input) -1] = '\0';
 		
 		//can't get it to break out, this doesn't work. 
 		if (strcmp(input, "q") == 0){
