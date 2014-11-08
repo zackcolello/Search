@@ -1,0 +1,110 @@
+<list> a
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> alive
+testDir/test3.txt, 1
+</list>
+<list> and
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> beautiful
+testDir/test2.txt, 1
+</list>
+<list> because
+testDir/test3.txt, 1
+</list>
+<list> but
+testDir/test3.txt, 1
+</list>
+<list> coffee
+testDir/test3.txt, 1
+</list>
+<list> directory
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> document
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> final
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> hello
+testDir/test2.txt, 1
+</list>
+<list> i
+testDir/test3.txt, 1
+</list>
+<list> in
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> is
+testDir/testDir2/testfile.txt, 2
+testDir/test2.txt, 1
+testDir/test3.txt, 1
+</list>
+<list> it
+testDir/testDir2/testfile.txt, 2
+testDir/test3.txt, 1
+</list>
+<list> keeping
+testDir/test3.txt, 1
+</list>
+<list> layered
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> me
+testDir/test3.txt, 1
+</list>
+<list> okay
+testDir/test3.txt, 1
+</list>
+<list> on
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> only
+testDir/test3.txt, 1
+</list>
+<list> our
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> program
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> s
+testDir/test3.txt, 1
+</list>
+<list> still
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> text
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> the
+testDir/test3.txt, 1
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> thing
+testDir/test3.txt, 1
+</list>
+<list> think
+testDir/test3.txt, 1
+</list>
+<list> this
+testDir/test3.txt, 1
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> today
+testDir/test2.txt, 1
+</list>
+<list> will
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> work
+testDir/testDir2/testfile.txt, 1
+</list>
+<list> works
+testDir/test3.txt, 1
+</list>
+<list> world
+testDir/test2.txt, 1
+</list>

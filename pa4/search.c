@@ -2,7 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include "parsefile.h"
+#include "sorted-list.h"
 
 int main(int argc, char **argv){
 
@@ -11,8 +13,18 @@ int main(int argc, char **argv){
 		return -1;
 	}
 
-	//TODO: check if inputted inverse index file is valid
-	//if file is valid, use index to make list from file
+	FILE *fp;
+
+	fp = fopen(argv[1], "r");
+
+	if(fp == NULL){
+		fprintf(stderr, "Invalid file name.\n");
+		return -1;
+	}	
+
+	buildLL(fp);	
+
+	
 	
 	char* input= malloc(1000); //need to make sure input does not go out of bounds
 
@@ -23,7 +35,6 @@ int main(int argc, char **argv){
 		//put terminating bit at end of word, so we can quit with just 'q'
 		input[strlen(input) -1] = '\0';
 		
-		//can't get it to break out, this doesn't work. 
 		if (strcmp(input, "q") == 0){
 			printf("Breaking\n");
 			break;
