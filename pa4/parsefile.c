@@ -8,7 +8,7 @@
 
 
 
-struct List buildLL(FILE *filep){
+struct List* buildLL(FILE *filep){
 	
 	int c, i;
 	char* buffer = (char*)malloc(1000);
@@ -16,9 +16,9 @@ struct List buildLL(FILE *filep){
 	char testbuff2[8];
 	char* trimmedbuffer;
 
-	char* filetestbuffer = (char*)malloc(1000);
-
-
+	char* filetestbuffer;
+	char* firstSeven = malloc(1000);
+	char* filetestbuffer2;
 	struct tokenNode *lastNode;
 
 	struct List *ls = (struct List*)malloc(sizeof(struct List));
@@ -54,37 +54,91 @@ struct List buildLL(FILE *filep){
 
 			}
 	
-			printf("new buffer is now %s\n", trimmedbuffer);
-		}else{ //line is not a token, it is a file
+		}else{ //line is not a token, it is a path
 
-			while(strncmp(buffer, "</list>", 7) != 0){
-			
-				printf("buffer is: %s\n", buffer);		
+			struct fileNode *lastFileNode;
+
+
+			while(1){
+
+				strncpy(firstSeven, buffer, 7);
+
+				if(strcmp(firstSeven, "</list>") == 0){
+					break;
+				}
+
+
+				filetestbuffer = (char*)malloc(1000);				
+
+		
+				strcpy(filetestbuffer, buffer);
+				filetestbuffer[strlen(filetestbuffer)] = '\0';
+
+				//remove comma and count from file	
+				int commaindex = strcspn(filetestbuffer, ",");
+				filetestbuffer2 = (char*)malloc(1000);	
+
+				strncpy(filetestbuffer2, filetestbuffer, commaindex);
+							//make fileNode
 	
-				int commaindex = strcspn(buffer, ",");
-				printf("comma index is: %d\n", commaindex);
 
-				strncpy(filetestbuffer, buffer, commaindex);
+	
+				struct fileNode *fileTemp = (struct fileNode*)malloc(sizeof(struct fileNode));	
+				fileTemp->path = (char*)malloc(strlen(filetestbuffer2)+1);
+				fileTemp->child = NULL;
+				fileTemp->count = 0;
 
-				printf("should've removed comma now: %s\n", filetestbuffer);
-			
+				strcpy(fileTemp->path, filetestbuffer2);	
+
+
+				if(lastNode->child == NULL){ //fileTemp will be first child
+					lastNode->child = fileTemp;
+					lastFileNode = fileTemp;
+				
+				}else{ //traverse fileNodes to place fileTemp at end
+
+					lastFileNode->child = fileTemp;
+					lastFileNode = fileTemp;
+
+				}
+
 				fgets(buffer, 1000, filep);
-
+				//free(filetestbuffer);
 			}
-
 		}
 	}
 
-/*	printf("token's head node is %s\n", ls->head->token);
+	printlist(ls);
 
-	struct tokenNode *tempdude = (struct tokenNode*)malloc(sizeof(struct tokenNode));
-	tempdude = ls->head;
-	while(tempdude != NULL){
+	return ls;
 
-	printf("node is %s\n", tempdude->token);
-	tempdude = tempdude->sibling;
-
-	}
-*/
 }
 
+
+void printlist(struct List *ls){
+
+	struct tokenNode *tempdude;
+	tempdude = ls->head;
+	struct fileNode *tempFileNode;
+	tempFileNode = tempdude->child;
+
+
+	while(tempdude != NULL){
+
+		printf("node is %s\n", tempdude->token);
+
+		while(tempFileNode != NULL){
+			
+			printf("\t %s \n", tempFileNode->path);
+			tempFileNode = tempFileNode->child;
+		}
+
+		tempdude = tempdude->sibling;
+
+		if(tempdude != NULL){
+			tempFileNode = tempdude->child;
+
+
+		}
+	}
+}
