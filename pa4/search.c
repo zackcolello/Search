@@ -28,6 +28,8 @@ int main(int argc, char **argv){
 	
 	char* input= malloc(1000); //need to make sure input does not go out of bounds
 
+
+/* do not delete this
 	//keep looping until input is 'q'
 
 	while(fgets(input, 1000, stdin)){ //need to fix input != 'q'
@@ -44,6 +46,7 @@ int main(int argc, char **argv){
 
 	}
 
+*/
 	printf("Session ended.\n");
 
 	return 0;

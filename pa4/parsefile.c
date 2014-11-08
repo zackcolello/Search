@@ -57,29 +57,18 @@ struct List buildLL(FILE *filep){
 			printf("new buffer is now %s\n", trimmedbuffer);
 		}else{ //line is not a token, it is a file
 
-			while(fgets(buffer, 1000, filep)){
+			while(strncmp(buffer, "</list>", 7) != 0){
 			
+				printf("buffer is: %s\n", buffer);		
 	
-	
-				//filetestbuffer = (char*)malloc(sizeof(buffer)+1);
-				strcpy(filetestbuffer, buffer);	
-				
-				printf("buffer size is %d\n", sizeof(buffer));
-				
-				printf("filetestbuffer is %s\n", filetestbuffer);
+				int commaindex = strcspn(buffer, ",");
+				printf("comma index is: %d\n", commaindex);
 
-				filetestbuffer[sizeof(buffer)] = '\0';
-				
-				if(strncmp(buffer, "</list>", 7) == 0){
-					break;
-				}
-	
+				strncpy(filetestbuffer, buffer, commaindex);
+
+				printf("should've removed comma now: %s\n", filetestbuffer);
 			
-
-			// buffer size is always 8, need to fix and make it work like
-			// the tokenNodes above
-	
-			//	int commaindex = strcspn(buffer, ",");
+				fgets(buffer, 1000, filep);
 
 			}
 
