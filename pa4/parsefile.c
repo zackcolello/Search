@@ -108,7 +108,7 @@ struct List* buildLL(FILE *filep){
 		}
 	}
 
-	printlist(ls);
+	//printlist(ls);
 
 	return ls;
 

@@ -7,7 +7,7 @@ index: index.c
 	$(CC) $(CCFLAGS) -o index index.c tokenizer.c sorted-list.c
 
 search: search.c
-	$(CC) $(CCFLAGS) -o search search.c parsefile.c
+	$(CC) $(CCFLAGS) -o search search.c parsefile.c bst.c
 
 clean:
 	-rm -f *.o
