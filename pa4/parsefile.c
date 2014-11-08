@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sorted-list.h"
 #include "parsefile.h"
 
@@ -15,23 +16,86 @@ struct List buildLL(FILE *filep){
 	char testbuff2[8];
 	char* trimmedbuffer;
 
+	char* filetestbuffer = (char*)malloc(1000);
+
+
+	struct tokenNode *lastNode;
+
+	struct List *ls = (struct List*)malloc(sizeof(struct List));
+	
+	ls->head == NULL;
 
 	while(fgets(buffer, 1000, filep)){
 
 		strncpy(testbuff2, buffer, 7);
 
 		if(strcmp(testbuff2, testbuff) == 0){
-			printf("this dudes a token: %s \n", buffer);	
 			
 			trimmedbuffer = (char*)malloc(sizeof(buffer) - 6);
 
 			trimmedbuffer = &buffer[7];
+
+			struct tokenNode *temp = (struct tokenNode*)malloc(sizeof(struct tokenNode));
+			temp->token = (char*)malloc(sizeof(trimmedbuffer)+1);
+			strcpy(temp->token, trimmedbuffer);
+			temp->sibling = NULL;
+			temp->child = NULL;
+
+			if(ls->head == NULL){ //token is first in
+				
+			//	printf("head node is %s\n", ls->head->token);
+				ls->head = temp;
+				lastNode = temp;
+			}else{
+				//printf("temp node is %s\n", temp->token);
+				lastNode->sibling = temp;
+
+				lastNode = temp;
+
+			}
+	
 			printf("new buffer is now %s\n", trimmedbuffer);
+		}else{ //line is not a token, it is a file
+
+			while(fgets(buffer, 1000, filep)){
+			
+	
+	
+				//filetestbuffer = (char*)malloc(sizeof(buffer)+1);
+				strcpy(filetestbuffer, buffer);	
+				
+				printf("buffer size is %d\n", sizeof(buffer));
+				
+				printf("filetestbuffer is %s\n", filetestbuffer);
+
+				filetestbuffer[sizeof(buffer)] = '\0';
+				
+				if(strncmp(buffer, "</list>", 7) == 0){
+					break;
+				}
+	
+			
+
+			// buffer size is always 8, need to fix and make it work like
+			// the tokenNodes above
+	
+			//	int commaindex = strcspn(buffer, ",");
+
+			}
+
 		}
 	}
 
-	buffer[i+1] = '\0';
+/*	printf("token's head node is %s\n", ls->head->token);
 
+	struct tokenNode *tempdude = (struct tokenNode*)malloc(sizeof(struct tokenNode));
+	tempdude = ls->head;
+	while(tempdude != NULL){
 
+	printf("node is %s\n", tempdude->token);
+	tempdude = tempdude->sibling;
+
+	}
+*/
 }
 

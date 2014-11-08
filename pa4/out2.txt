@@ -1,0 +1,63 @@
+<list> a
+testDir2/innerDir/testfile2.txt, 1
+testDir2/testfile.txt, 1
+</list>
+<list> another
+testDir2/innerDir/testfile2.txt, 1
+</list>
+<list> are
+testDir2/testfile.txt, 1
+</list>
+<list> directory
+testDir2/innerDir/testfile2.txt, 1
+</list>
+<list> final
+testDir2/innerDir/testfile3.txt, 1
+</list>
+<list> has
+testDir2/innerDir/testfile3.txt, 1
+</list>
+<list> hello
+testDir2/innerDir/testfile3.txt, 1
+</list>
+<list> here
+testDir2/testfile.txt, 1
+</list>
+<list> in
+testDir2/innerDir/testfile3.txt, 1
+</list>
+<list> inside
+testDir2/innerDir/testfile2.txt, 1
+</list>
+<list> is
+testDir2/innerDir/testfile2.txt, 1
+testDir2/innerDir/testfile3.txt, 1
+testDir2/testfile.txt, 1
+</list>
+<list> it
+testDir2/innerDir/testfile3.txt, 2
+</list>
+<list> other
+testDir2/innerDir/testfile3.txt, 1
+</list>
+<list> our
+testDir2/innerDir/testfile3.txt, 1
+</list>
+<list> some
+testDir2/testfile.txt, 1
+</list>
+<list> test
+testDir2/innerDir/testfile2.txt, 2
+testDir2/innerDir/testfile3.txt, 1
+testDir2/testfile.txt, 1
+</list>
+<list> this
+testDir2/innerDir/testfile2.txt, 1
+testDir2/innerDir/testfile3.txt, 1
+testDir2/testfile.txt, 1
+</list>
+<list> words
+testDir2/innerDir/testfile2.txt, 1
+testDir2/innerDir/testfile3.txt, 1
+testDir2/testfile.txt, 1
+</list>
