@@ -15,4 +15,10 @@ struct Tree{
 
 };
 
-struct Tree* LLtoBST(struct List* ls); 
+struct Tree* LLtoBST(struct List* ls);
+
+struct bstNode* BSTbuild(struct tokenNode* head, int nodeCount);
+
+int countNodes(struct List* ls);
+
+void printBST(struct bstNode* root);

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parsefile.h"
-#include "sorted-list.h"
+#include "bst.h"
 
 int main(int argc, char **argv){
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv){
 
 	struct List* ls = buildLL(fp);	
 
-	
+	LLtoBST(ls);	
 	
 	char* input= malloc(1000); //need to make sure input does not go out of bounds
 
