@@ -199,16 +199,10 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 //Search NOR
 struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
 
-
-	struct fileNode *temp;
+	int print=1;
+	struct fileNode *temp, *stemp, *results, *new;
 
 	temp = head;
-
-	while(temp){
-
-		temp = temp->child;
-
-	}
 
 
 	struct fileNode* soNode= so(query, tree);
@@ -216,7 +210,27 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 	if(soNode == NULL){
 		return NULL;
 	}
+	stemp=soNode;
+	
 
+	while(temp){
+		print=1;
+		while(stemp){
+			if (strcmp(temp->path,stemp->path)==0){
+				print=0;
+			}
+			stemp=stemp->child;
+		}
+		stemp=soNode;
+		if (print){
+
+
+			printf("%s ",temp->path);
+		}
+		temp=temp->child;
+
+	}
+	
 }
 
 
