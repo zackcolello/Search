@@ -199,14 +199,12 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 //Search NOR
 struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
 
-	printf("head is %s\n", head->path);
 
 	struct fileNode *temp;
 
 	temp = head;
 
 	while(temp){
-		printf("temp is: %s\n", temp->path);
 
 		temp = temp->child;
 
@@ -314,24 +312,49 @@ int main(int argc, char **argv){
 
 	struct List* ls = buildLL(fp);	
 
+
+
+
+
+/***********************************************************************************************/
 	//make list of File nodes to be used later
 	struct tokenNode* Tptr = ls->head;
 	struct fileNode* Fptr = Tptr->child;
 
-	struct fileNode* temp = NULL;
+	struct fileNode* temp = NULL, *tmptr=NULL;
 	struct fileNode* allfilehead = NULL;
-
+	int fileflag=0;
 
 	while(Tptr){
 		while(Fptr){
+			
+			tmptr=allfilehead;
+			while(tmptr){
+				fileflag=0;
+				if (allfilehead==NULL){
+					temp = (struct fileNode*)malloc(sizeof(struct fileNode));
+					temp->path = (char*)malloc(strlen(Fptr->path)+1);
+					strcpy(temp->path, Fptr->path);
 
+					temp->child = allfilehead;
+					allfilehead = temp;
+				}
+		
+				if(strcmp(tmptr->path,Fptr->path)==0){
+					fileflag=1;
+					break; //found same
+					
+				}
+				tmptr=tmptr->child;
+			}
+			if(!fileflag){
 			temp = (struct fileNode*)malloc(sizeof(struct fileNode));
 			temp->path = (char*)malloc(strlen(Fptr->path)+1);
 			strcpy(temp->path, Fptr->path);
 
 			temp->child = allfilehead;
 			allfilehead = temp;
-
+			}
 			Fptr = Fptr->child;
 		}
 
@@ -342,6 +365,9 @@ int main(int argc, char **argv){
 		}
 
 	}
+/****************************************************************************************************/
+
+
 
 
 	tree->root = LLtoBST(ls);	
