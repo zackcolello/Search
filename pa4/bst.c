@@ -8,9 +8,11 @@ struct bstNode* LLtoBST(struct List* ls){
 	count = countNodes(ls);
 
 	printf("count is %d\n", count);
-	printBST(BSTbuild(&(ls->head), count));
 
-	return NULL;
+
+//	printBST(BSTbuild(&(ls->head), count));
+
+	return BSTbuild(&(ls->head),count);
 }
 
 int countNodes(struct List* ls){
