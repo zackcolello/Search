@@ -7,9 +7,6 @@ struct bstNode* LLtoBST(struct List* ls){
 	int count;
 	count = countNodes(ls);
 
-	printf("count is %d\n", count);
-
-
 //	printBST(BSTbuild(&(ls->head), count));
 
 	return BSTbuild(&(ls->head),count);
@@ -27,7 +24,6 @@ int countNodes(struct List* ls){
 		tn=tn->sibling;
 
 	}
-	printf("count is %d\n",count);	
 	return count;
 
 }
@@ -42,6 +38,8 @@ struct bstNode* BSTbuild(struct tokenNode** head, int nodeCount){
 
 	struct bstNode *root = (struct bstNode*) malloc(sizeof(struct bstNode));
 	root->token=(*head)->token;
+
+
 	root->child=(*head)->child;
 	root->left=NULL;
 	root->right=NULL;

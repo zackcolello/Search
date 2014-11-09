@@ -8,11 +8,11 @@
 
 void so(struct tokenNode* query, struct Tree* tree){
 
-	struct fileNode *result = (struct fileNode*)malloc(sizeof(struct fileNode));
-	result->child = NULL;
-	result->parent = NULL;
-	result->path = NULL;
-	
+	struct fileNode *resulthead = (struct fileNode*)malloc(sizeof(struct fileNode));
+	resulthead->child = NULL;
+	resulthead->parent = NULL;
+	resulthead->path = NULL;
+	struct fileNode *printPtr;	
 	struct tokenNode *ptr = query;
 
 
@@ -23,30 +23,46 @@ void so(struct tokenNode* query, struct Tree* tree){
 		struct bstNode *BSTptr = tree->root;
 
 		while(BSTptr != NULL){
-
+			
 			//found token
 			if(strcmp(BSTptr->token, ptr->token) == 0){
+				
 				//add to list of filenodes
-
 				struct fileNode *childptr;				
 				childptr = BSTptr->child;
 
-				while(childptr != NULL){
 
+				while(childptr != NULL){
+					struct fileNode *resultPtr;
 					//first filenode
-					if(result->path == NULL){
-						result->path = (char*)malloc(strlen(childptr->path));
-						strcpy(result->path, childptr->path);
-						printf("result path is: %s\n", result->path);	
+					if(resulthead->path == NULL){
+						resulthead->path = (char*)malloc(strlen(childptr->path));
+						strcpy(resulthead->path, childptr->path);
 					//not first filenode
 					}else{
+						resultPtr=resulthead;
+						while(resultPtr != NULL){
+							if(strcmp(resultPtr->path,childptr->path)==0){
+								break;
+							}else{
+								resultPtr=resultPtr->child;
+							}
+
 						
-					
+						}
+						if(resultPtr==NULL){
+							struct fileNode* temp = (struct fileNode*)malloc (sizeof(struct fileNode));
+							temp->path=(char*)malloc(strlen(childptr->path));
+							strcpy(temp->path,childptr->path);
+							temp->child=resulthead;
+							resulthead=temp;
+							resulthead->parent=NULL;
+						}
 
 					}
 					childptr = childptr->child;
 				}				
-
+				break;
 
 			}else if(strcmp(BSTptr->token, ptr->token) > 0){
 				//go left in tree
@@ -61,6 +77,18 @@ void so(struct tokenNode* query, struct Tree* tree){
 		}
 
 		ptr = ptr->sibling;
+	}
+	//print
+	printPtr=resulthead;
+	while(printPtr){
+		if(printPtr->child == NULL){
+			printf("%s\n", printPtr->path);
+			break;
+		}
+
+		printf("%s, ",printPtr->path);
+		printPtr= printPtr->child;
+
 	}
 
 }

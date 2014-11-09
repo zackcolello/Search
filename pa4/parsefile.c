@@ -37,7 +37,7 @@ struct List* buildLL(FILE *filep){
 
 			struct tokenNode *temp = (struct tokenNode*)malloc(sizeof(struct tokenNode));
 			temp->token = (char*)malloc(sizeof(trimmedbuffer)+1);
-			strcpy(temp->token, trimmedbuffer);
+			strncpy(temp->token, trimmedbuffer, strlen(trimmedbuffer)-1);
 			temp->sibling = NULL;
 			temp->child = NULL;
 
@@ -80,7 +80,6 @@ struct List* buildLL(FILE *filep){
 
 				strncpy(filetestbuffer2, filetestbuffer, commaindex);
 							//make fileNode
-	
 
 	
 				struct fileNode *fileTemp = (struct fileNode*)malloc(sizeof(struct fileNode));	
