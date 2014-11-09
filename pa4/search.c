@@ -80,6 +80,10 @@ void so(struct tokenNode* query, struct Tree* tree){
 	}
 	//print
 	printPtr=resulthead;
+	if (printPtr->path ==NULL){
+		printf("No results found.\n");
+		return;
+	}
 	while(printPtr){
 		if(printPtr->child == NULL){
 			printf("%s\n", printPtr->path);
@@ -94,6 +98,108 @@ void so(struct tokenNode* query, struct Tree* tree){
 }
 
 void sa(struct tokenNode* query, struct Tree* tree){
+	 
+	 struct List *ls= (struct List*)malloc(sizeof(struct List));
+	 ls->head=query;
+	 int count = countNodes(ls);
+	 int printFlag=0; 
+
+	struct fileNode *resulthead = (struct fileNode*)malloc(sizeof(struct fileNode));
+	resulthead->child = NULL;
+	resulthead->parent = NULL;
+	resulthead->path = NULL;
+	struct fileNode *printPtr;	
+	struct tokenNode *ptr = query;
+
+
+	//traverse through query list, search BST for each ptr node
+	while(ptr != NULL){
+
+		//traverse tree
+		struct bstNode *BSTptr = tree->root;
+
+		while(BSTptr != NULL){
+			
+			//found token
+			if(strcmp(BSTptr->token, ptr->token) == 0){
+				
+				//add to list of filenodes
+				struct fileNode *childptr;				
+				childptr = BSTptr->child;
+
+
+				while(childptr != NULL){
+					struct fileNode *resultPtr;
+					//first filenode
+					if(resulthead->path == NULL){
+						resulthead->path = (char*)malloc(strlen(childptr->path));
+						strcpy(resulthead->path, childptr->path);
+						resulthead->count=1;
+					//not first filenode
+					}else{
+						resultPtr=resulthead;
+						while(resultPtr != NULL){
+							if(strcmp(resultPtr->path,childptr->path)==0){
+								resultPtr->count++;
+								break;
+							}else{
+								resultPtr=resultPtr->child;
+							}
+
+						
+						}
+						if(resultPtr==NULL){
+							struct fileNode* temp = (struct fileNode*)malloc (sizeof(struct fileNode));
+							temp->path=(char*)malloc(strlen(childptr->path));
+							strcpy(temp->path,childptr->path);
+							temp->child=resulthead;
+							temp->count=1;
+							resulthead=temp;
+							resulthead->parent=NULL;
+						}
+
+					}
+					childptr = childptr->child;
+				}				
+				break;
+
+			}else if(strcmp(BSTptr->token, ptr->token) > 0){
+				//go left in tree
+
+				BSTptr = BSTptr->left;
+
+			}else{
+				//go right in tree
+
+				BSTptr = BSTptr->right;
+			}
+		}
+
+		ptr = ptr->sibling;
+	}
+	//print
+	printPtr=resulthead;
+	if (printPtr->path ==NULL){
+		printf("No results found.\n");
+		return;
+	}
+	while(printPtr){
+		if(printPtr->child == NULL){
+			if(printPtr->count==count){
+				printf("%s\n", printPtr->path);
+				printFlag=1;
+			}
+			break;
+		}
+		if(printPtr->count==count){
+			printf("%s, ",printPtr->path);
+			printFlag=1;
+		}
+		printPtr= printPtr->child;
+	}
+	if (!printFlag){
+		printf("No results found.\n");
+	}
 
 
 }
@@ -137,11 +243,15 @@ int main(int argc, char **argv){
 		input[strlen(input) -1] = '\0';
 		
 		if (strcmp(input, "q") == 0){
-			printf("Breaking\n");
 			break;
 		}
 
 		token = strtok(input, " ");
+		
+		if(token==NULL){
+			fprintf(stderr,"incorrect input.\n");
+			continue;
+		}
 		
 		if(strcmp(token, "sa") == 0){
 			flag = 0;		
