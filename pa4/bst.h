@@ -15,9 +15,9 @@ struct Tree{
 
 };
 
-struct Tree* LLtoBST(struct List* ls);
+struct bstNode* LLtoBST(struct List* ls);
 
-struct bstNode* BSTbuild(struct tokenNode* head, int nodeCount);
+struct bstNode* BSTbuild(struct tokenNode** head, int nodeCount);
 
 int countNodes(struct List* ls);
 

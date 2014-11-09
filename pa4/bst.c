@@ -3,17 +3,14 @@
 #include <string.h>
 #include "bst.h"
 
-struct Tree* LLtoBST(struct List* ls){
+struct bstNode* LLtoBST(struct List* ls){
 	int count;
 	count = countNodes(ls);
 
-	printBST(BSTbuild(ls->head,count));
-
-		
 	printf("count is %d\n", count);
+	printBST(BSTbuild(&(ls->head), count));
 
 	return NULL;
-
 }
 
 int countNodes(struct List* ls){
@@ -33,7 +30,7 @@ int countNodes(struct List* ls){
 
 }
 
-struct bstNode* BSTbuild(struct tokenNode* head, int nodeCount){
+struct bstNode* BSTbuild(struct tokenNode** head, int nodeCount){
 
 	if (nodeCount<=0){
 		return NULL;
@@ -42,13 +39,13 @@ struct bstNode* BSTbuild(struct tokenNode* head, int nodeCount){
 
 
 	struct bstNode *root = (struct bstNode*) malloc(sizeof(struct bstNode));
-	root->token=head->token;
-	root->child=head->child;
+	root->token=(*head)->token;
+	root->child=(*head)->child;
 	root->left=NULL;
 	root->right=NULL;
 	root->left=left;
 
-	head=head->sibling;
+	*head=(*head)->sibling;
 
 	root->right=BSTbuild(head, nodeCount-(nodeCount/2)-1);
 
