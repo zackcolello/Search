@@ -12,7 +12,6 @@ void printList(struct List *list){
 
 	struct tokenNode *tempT;
 	struct fileNode *tempF;
-
 	tempT = list->head;
 	tempF = tempT->child;
 
@@ -276,7 +275,6 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 		}
 		stemp=soNode;
 
-
 		if (print){
 
 			//path is in file but not in so LL, so it is NOR, print
@@ -287,7 +285,7 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 			}
 
 
-			if(firstflag == 0){
+			else if(firstflag == 0){
 				printf(", %s",temp->path);
 			}
 		}
@@ -299,6 +297,89 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 	}
 	printf("\n");
 }
+
+struct fileNode* sna(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
+
+	struct List* ls = (struct List*)malloc(sizeof(struct List));
+	ls->head=query;
+	int count = countNodes(ls);
+	int print=1; //flag used to know whether to print a node
+	int firstflag = 1; //flag used for printing to know whether node is first or not
+	
+	struct fileNode *temp, *stemp, *results, *new;
+
+	temp = head;
+
+	//Create a LL from so (search or) function
+	struct fileNode* saNode= sa(query, tree);
+
+	if(saNode->path == NULL){//None of the given terms are in the LL
+		
+		//print all paths since terms did not exist in LL
+		while(temp){
+
+			if(firstflag){
+				printf("%s",temp->path);
+				firstflag = 0;
+			}else{
+				printf(", %s", temp->path);
+			
+			}
+
+			temp=temp->child;
+		
+		}
+		printf("\n");
+		return NULL;
+	}
+	stemp=saNode;
+
+		if(temp == NULL){
+		printf("No results found.\n");
+		return NULL;
+	}
+	
+	//Traverse all nodes that exist in the file
+	while(temp){
+		print=1;
+
+		//Traverse all nodes returned by so function
+		while(stemp){
+
+			//if a node from the file appears in so, set print flag to false
+			if (strcmp(temp->path,stemp->path)==0&&stemp->count==count){
+				print=0;
+			}
+			stemp=stemp->child;
+		}
+		stemp=saNode;
+
+
+		if (print){
+
+			//path is in file but not in so LL, so it is NOR, print
+			//use flags to know when to use commas, space etc to get correct output
+			if(firstflag == 1){
+				printf("%s", temp->path);
+				firstflag = 0;
+			}
+
+
+			else if(firstflag == 0){
+				printf(", %s",temp->path);
+			}
+		}
+		temp=temp->child;
+
+	}
+	if (firstflag){
+	printf("No results found.");
+	}
+	printf("\n");
+
+
+}
+
 
 //printResult takes in a fileNode head ptr of an LL to print, a flag of what search type was used, and
 //a count that stores the size of the LL.
@@ -486,6 +567,9 @@ int main(int argc, char **argv){
 			flag = 2;
 		}else if(strcmp(token, "sno") == 0){
 			flag = 3;
+		}else if(strcmp(token,"sna")==0){
+			flag = 4;
+		
 		}else{
 			fprintf(stderr, "incorrect input.\n");
 			continue;
@@ -549,6 +633,9 @@ int main(int argc, char **argv){
 			break;
 		case 3: //SNO
 			result = sno(head, tree, allfilehead);
+			break;
+		case 4:
+			result = sna(head, tree, allfilehead);
 		}
 
 	}
