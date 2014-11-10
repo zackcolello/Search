@@ -224,6 +224,7 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 //and an LL of all paths in the entire binary tree. Returns the first fileNode ptr that contains 
 //none of the given search terms in query.
 struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
+
 	int print=1; //flag used to know whether to print a node
 	int firstflag = 1; //flag used for printing to know whether node is first or not
 
@@ -234,10 +235,20 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 	//Create a LL from so (search or) function
 	struct fileNode* soNode= so(query, tree);
 
-	if(soNode->path == NULL){//was checking for soNode being Null, needed to check path.
+	if(soNode->path == NULL){//None of the given terms are in the LL
+		
+		//print all paths since terms did not exist in LL
 		while(temp){
-		printf("%s ",temp->path);
-		temp=temp->child;
+
+			if(firstflag){
+				printf("%s",temp->path);
+				firstflag = 0;
+			}else{
+				printf(", %s", temp->path);
+			
+			}
+
+			temp=temp->child;
 		
 		}
 		printf("\n");
@@ -284,7 +295,7 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 
 	}
 	if (firstflag){
-	printf("No results  found.");
+	printf("No results found.");
 	}
 	printf("\n");
 }
