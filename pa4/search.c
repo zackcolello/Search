@@ -226,6 +226,8 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
 
 	int print=1; //flag used to know whether to print a node
+	int firstflag = 1; //flag used for printing to know whether node is first or not
+
 	struct fileNode *temp, *stemp, *results, *new;
 
 	temp = head;
@@ -237,6 +239,11 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 		return NULL;
 	}
 	stemp=soNode;
+
+		if(temp == NULL){
+		printf("No results found.\n");
+		return NULL;
+	}
 	
 	//Traverse all nodes that exist in the file
 	while(temp){
@@ -255,14 +262,23 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 
 
 		if (print){
-			//path is in file but not in so LL, so it is NOR, print
 
-			printf("%s ",temp->path);
+			//path is in file but not in so LL, so it is NOR, print
+			//use flags to know when to use commas, space etc to get correct output
+			if(firstflag == 1){
+				printf("%s", temp->path);
+				firstflag = 0;
+			}
+
+
+			if(firstflag == 0){
+				printf(", %s",temp->path);
+			}
 		}
 		temp=temp->child;
 
 	}
-	
+	printf("\n");
 }
 
 //printResult takes in a fileNode head ptr of an LL to print, a flag of what search type was used, and
@@ -463,6 +479,7 @@ int main(int argc, char **argv){
 			continue;
 		}
 
+
 		struct tokenNode *tNode;
 		struct tokenNode *head;
 		tNode = (struct tokenNode*)malloc(sizeof(struct tokenNode));
@@ -485,6 +502,7 @@ int main(int argc, char **argv){
 
 			token = strtok(NULL, " ");
 		}
+
 
 		//Make new list to find count
 		struct List *ls2 = (struct List*)malloc(sizeof(struct List));
