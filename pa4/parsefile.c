@@ -7,7 +7,8 @@
 #include "parsefile.h"
 
 
-
+//buildLL takes in a file pointer, and returns a List pointer of a new 2D Linked List.
+//buildLL scans the file line by line, and creates tokenNodes and fileNodes.
 struct List* buildLL(FILE *filep){
 	
 	int c, i;
@@ -25,10 +26,14 @@ struct List* buildLL(FILE *filep){
 	
 	ls->head == NULL;
 
+
+	//scan file line by line, storing in buffer
 	while(fgets(buffer, 1000, filep)){
 
+		//copy first 7 characters to check if line should be put in a tokenNode
 		strncpy(testbuff2, buffer, 7);
 
+		//line is a token
 		if(strcmp(testbuff2, testbuff) == 0){
 			
 			trimmedbuffer = (char*)malloc(sizeof(buffer) - 6);
@@ -41,46 +46,45 @@ struct List* buildLL(FILE *filep){
 			temp->sibling = NULL;
 			temp->child = NULL;
 
-			if(ls->head == NULL){ //token is first in
+			if(ls->head == NULL){ //token is first in list to be returned
 				
-			//	printf("head node is %s\n", ls->head->token);
 				ls->head = temp;
 				lastNode = temp;
 			}else{
-				//printf("temp node is %s\n", temp->token);
 				lastNode->sibling = temp;
-
 				lastNode = temp;
 
 			}
 	
-		}else{ //line is not a token, it is a path
+		}else{ //line is not a token, it is a path, store in a fileNode
 
 			struct fileNode *lastFileNode;
 
-
+			//iterate and only break later
 			while(1){
 
 				strncpy(firstSeven, buffer, 7);
 
+				//if we find the end list, break out of the loop
 				if(strcmp(firstSeven, "</list>") == 0){
 					break;
 				}
 
 
+				//create a new string from line
 				filetestbuffer = (char*)malloc(1000);				
-
 		
 				strcpy(filetestbuffer, buffer);
 				filetestbuffer[strlen(filetestbuffer)] = '\0';
 
-				//remove comma and count from file	
+				//remove comma and count from file line	
 				int commaindex = strcspn(filetestbuffer, ",");
 				filetestbuffer2 = (char*)malloc(1000);	
 
 				strncpy(filetestbuffer2, filetestbuffer, commaindex);
-							//make fileNode
+		
 
+				//make fileNode
 	
 				struct fileNode *fileTemp = (struct fileNode*)malloc(sizeof(struct fileNode));	
 				fileTemp->path = (char*)malloc(strlen(filetestbuffer2)+1);
@@ -107,13 +111,12 @@ struct List* buildLL(FILE *filep){
 		}
 	}
 
-	//printlist(ls);
 
 	return ls;
 
 }
 
-
+//printlist takes in a list pointer and prints a 2D LL.
 void printlist(struct List *ls){
 
 	struct tokenNode *tempdude;

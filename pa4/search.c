@@ -6,7 +6,8 @@
 #include "parsefile.h"
 #include "bst.h"
 
-
+//printList takes in a list pointer, and prints all tokens in this list,
+//along with the files that include those tokens. Used for testing.
 void printList(struct List *list){
 
 	struct tokenNode *tempT;
@@ -33,6 +34,11 @@ void printList(struct List *list){
 
 }
 
+
+//so -- Search Or. Takes in the first tokenNode ptr query in a linked list of queries,
+//as well as the binary tree to search.
+//Returns the first fileNode ptr in a linked list with all files in the tree that
+//contain at least one of the queries in the query list.
 struct fileNode* so(struct tokenNode* query, struct Tree* tree){
 
 	struct fileNode *resulthead = (struct fileNode*)malloc(sizeof(struct fileNode));
@@ -43,32 +49,39 @@ struct fileNode* so(struct tokenNode* query, struct Tree* tree){
 	struct tokenNode *ptr = query;
 
 
-	//traverse through query list, search BST for each ptr node
+	//traverse through query linked list to search BST for each ptr node
 	while(ptr != NULL){
 
-		//traverse tree
+		//traverse BStree for given ptr
 		struct bstNode *BSTptr = tree->root;
 
 		while(BSTptr != NULL){
 			
-			//found token
+			//found token in BStree
 			if(strcmp(BSTptr->token, ptr->token) == 0){
 				
-				//add to list of filenodes
 				struct fileNode *childptr;				
 				childptr = BSTptr->child;
 
 
+				//search through BSTptr's filenodes and add to list
 				while(childptr != NULL){
+				
 					struct fileNode *resultPtr;
-					//first filenode
+				
+					//first filenode, make resultHead
 					if(resulthead->path == NULL){
 						resulthead->path = (char*)malloc(strlen(childptr->path));
 						strcpy(resulthead->path, childptr->path);
-					//not first filenode
+					
+					//not first filenode, see if it's already in result linked list
 					}else{
 						resultPtr=resulthead;
+						
+						//iterate through fileNodes to find where in the list it goes
 						while(resultPtr != NULL){
+							
+							//path is already there, break out, do not add duplicate
 							if(strcmp(resultPtr->path,childptr->path)==0){
 								break;
 							}else{
@@ -77,6 +90,8 @@ struct fileNode* so(struct tokenNode* query, struct Tree* tree){
 
 						
 						}
+				
+						//traversed result list, did not find duplicate. Add to LL
 						if(resultPtr==NULL){
 							struct fileNode* temp = (struct fileNode*)malloc (sizeof(struct fileNode));
 							temp->path=(char*)malloc(strlen(childptr->path));
@@ -105,11 +120,13 @@ struct fileNode* so(struct tokenNode* query, struct Tree* tree){
 
 		ptr = ptr->sibling;
 	}
-	//print
 	
 	return resulthead;
 }
 
+
+//sa -- Search And. Takes in tokenNode ptr query, the first token node in an LL of terms, and a BStree to search.
+//Returns the first fileNode in an LL that contains all files in the tree that contain ALL the terms given in query.
 struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 	 
 	 struct List *ls= (struct List*)malloc(sizeof(struct List));
@@ -125,7 +142,7 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 	struct tokenNode *ptr = query;
 
 
-	//traverse through query list, search BST for each ptr node
+	//traverse through query list
 	while(ptr != NULL){
 
 		//traverse tree
@@ -143,15 +160,20 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 
 				while(childptr != NULL){
 					struct fileNode *resultPtr;
+				
 					//first filenode
 					if(resulthead->path == NULL){
 						resulthead->path = (char*)malloc(strlen(childptr->path));
 						strcpy(resulthead->path, childptr->path);
 						resulthead->count=1;
-					//not first filenode
+				
+					//not first filenode, update counts of result LL
 					}else{
 						resultPtr=resulthead;
+
 						while(resultPtr != NULL){
+
+							//increase count of result nodes in LL
 							if(strcmp(resultPtr->path,childptr->path)==0){
 								resultPtr->count++;
 								break;
@@ -161,6 +183,8 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 
 						
 						}
+
+						//did not find fileNode in result list, first occurence of path
 						if(resultPtr==NULL){
 							struct fileNode* temp = (struct fileNode*)malloc (sizeof(struct fileNode));
 							temp->path=(char*)malloc(strlen(childptr->path));
@@ -190,21 +214,23 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 
 		ptr = ptr->sibling;
 	}
-	//print
+	
 	return resulthead;
 
 
 }
 
-//Search NOR
+//sno -- Search NOR. Takes in first tokenNode ptr query in a list of terms to search, a tree to search,
+//and an LL of all paths in the entire binary tree. Returns the first fileNode ptr that contains 
+//none of the given search terms in query.
 struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
 
-	int print=1;
+	int print=1; //flag used to know whether to print a node
 	struct fileNode *temp, *stemp, *results, *new;
 
 	temp = head;
 
-
+	//Create a LL from so (search or) function
 	struct fileNode* soNode= so(query, tree);
 
 	if(soNode == NULL){
@@ -212,18 +238,24 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 	}
 	stemp=soNode;
 	
-
+	//Traverse all nodes that exist in the file
 	while(temp){
 		print=1;
+
+		//Traverse all nodes returned by so function
 		while(stemp){
+
+			//if a node from the file appears in so, set print flag to false
 			if (strcmp(temp->path,stemp->path)==0){
 				print=0;
 			}
 			stemp=stemp->child;
 		}
 		stemp=soNode;
-		if (print){
 
+
+		if (print){
+			//path is in file but not in so LL, so it is NOR, print
 
 			printf("%s ",temp->path);
 		}
@@ -233,7 +265,9 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 	
 }
 
-
+//printResult takes in a fileNode head ptr of an LL to print, a flag of what search type was used, and
+//a count that stores the size of the LL.
+//printResult returns void and prints the LL.
 void printResult(struct fileNode* head, int flag, int count){
 
 	struct fileNode* printPtr;
@@ -241,7 +275,7 @@ void printResult(struct fileNode* head, int flag, int count){
 	int printFlag = 0;
 
 	switch(flag){
-	case 0:
+	case 0: //search OR
 		printPtr=head;
 		if (printPtr->path ==NULL){
 			printf("No results found.\n");
@@ -259,7 +293,7 @@ void printResult(struct fileNode* head, int flag, int count){
 		}
 		break;
 	
-	case 1:
+	case 1: //search AND
 	
 		if (printPtr->path ==NULL){
 			printf("No results found.\n");
@@ -267,7 +301,9 @@ void printResult(struct fileNode* head, int flag, int count){
 		}
 		while(printPtr){
 			if(printPtr->child == NULL){
+			
 				if(printPtr->count==count){
+
 					if (!printFlag){
 						printf("%s", printPtr->path);
 						printFlag=1;
@@ -279,6 +315,8 @@ void printResult(struct fileNode* head, int flag, int count){
 				}
 				break;
 			}
+
+			//only print fileNodes that contain all terms
 			if(printPtr->count==count){
 			
 				if (!printFlag){
@@ -302,7 +340,11 @@ void printResult(struct fileNode* head, int flag, int count){
 
 }
 
-
+//Main provides the interface for the user to enter search terms.
+//so <terms> : Search OR
+//sa <terms> : Search AND
+//sxo <terms> : Search Exclusive OR
+//sno <terms> : Search NOR
 int main(int argc, char **argv){
 
 	struct Tree *tree = (struct Tree*)malloc(sizeof(struct Tree));
@@ -326,10 +368,6 @@ int main(int argc, char **argv){
 
 	struct List* ls = buildLL(fp);	
 
-
-
-
-
 /***********************************************************************************************/
 	//make list of File nodes to be used later
 	struct tokenNode* Tptr = ls->head;
@@ -339,6 +377,7 @@ int main(int argc, char **argv){
 	struct fileNode* allfilehead = NULL;
 	int fileflag=0;
 
+	
 	while(Tptr){
 		while(Fptr){
 			
@@ -381,19 +420,14 @@ int main(int argc, char **argv){
 	}
 /****************************************************************************************************/
 
-
-
-
 	tree->root = LLtoBST(ls);	
-//	printBST(tree->root);
 
-	char* input= malloc(1000); //need to make sure input does not go out of bounds
-
+	char* input= malloc(1000);
 	char* token;
 
 	//keep looping until input is 'q'
 
-	while(fgets(input, 1000, stdin)){ //need to fix input != 'q'
+	while(fgets(input, 1000, stdin)){
 
 		//put terminating bit at end of word, so we can quit with just 'q'
 		input[strlen(input) -1] = '\0';
@@ -458,6 +492,9 @@ int main(int argc, char **argv){
 		struct fileNode* result;
 		int count = 0;
 
+
+
+		//switch cased used to call the correct function based on user input.
 		switch(flag){
 		case 0: //SO
 			result = so(head, tree);
@@ -477,14 +514,6 @@ int main(int argc, char **argv){
 			result = sno(head, tree, allfilehead);
 		}
 
-/* build list
-		struct tokenNode *temp = head; 
-		while(temp != NULL){
-			printf("%s\n", temp->token);
-			
-			temp = temp->sibling;
-		}
-*/
 	}
 
 	printf("Session ended.\n");
