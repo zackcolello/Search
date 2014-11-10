@@ -36,7 +36,6 @@ struct List* buildLL(FILE *filep){
 		//line is a token
 		if(strcmp(testbuff2, testbuff) == 0){
 			
-			trimmedbuffer = (char*)malloc(sizeof(buffer) - 6);
 
 			trimmedbuffer = &buffer[7];
 
@@ -106,12 +105,13 @@ struct List* buildLL(FILE *filep){
 				}
 
 				fgets(buffer, 1000, filep);
-				//free(filetestbuffer);
 			}
 		}
 	}
-
-
+	free(firstSeven);
+	free(filetestbuffer);
+	free(filetestbuffer2);
+	free(buffer);
 	return ls;
 
 }

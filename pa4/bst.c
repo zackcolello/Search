@@ -9,8 +9,9 @@
 struct bstNode* LLtoBST(struct List* ls){
 	int count;
 	count = countNodes(ls);
-
-	return BSTbuild(&(ls->head),count);
+	struct bstNode* tree= BSTbuild(&(ls->head),count);
+	free(ls);
+	return tree;
 }
 
 //countNodes takes in a list pointer to a LL. It counts all of the tokenNodes in a Linked List, and returns
@@ -53,7 +54,7 @@ struct bstNode* BSTbuild(struct tokenNode** head, int nodeCount){
 	root->left=NULL;
 	root->right=NULL;
 	root->left=left;
-
+	free(*head);
 	*head=(*head)->sibling;
 
 	//recursive call on right node

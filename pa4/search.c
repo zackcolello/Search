@@ -455,6 +455,31 @@ void printResult(struct fileNode* head, int flag, int count){
 
 
 }
+void recDestroy (struct bstNode* root){
+
+	if(root==NULL){
+		return;
+	}
+	recDestroy(root->left);
+	recDestroy(root->right);
+	struct fileNode *target=root->child;
+	while(target){
+		root->child=root->child->child;
+		free(target->path);
+		free(target);
+		target=root->child;
+	}
+	free(root->token);
+	free(root);
+
+}
+void destroyTree(struct Tree *tree){
+	struct bstNode* target=tree->root;
+	recDestroy(target);
+	free(tree);
+
+}
+
 
 //Main provides the interface for the user to enter search terms.
 //so <terms> : Search OR
@@ -549,6 +574,17 @@ int main(int argc, char **argv){
 		input[strlen(input) -1] = '\0';
 		
 		if (strcmp(input, "q") == 0){
+			struct fileNode* target;
+			target=allfilehead;
+			while(target){
+				allfilehead=allfilehead->child;
+				free(target->path);
+				free(target);
+				target=allfilehead;
+			
+			}
+			free(input);
+			destroyTree(tree);
 			break;
 		}
 
