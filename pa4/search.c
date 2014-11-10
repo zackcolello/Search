@@ -296,6 +296,7 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 	printf("No results found.");
 	}
 	printf("\n");
+	return soNode;
 }
 
 struct fileNode* sna(struct tokenNode* query, struct Tree* tree, struct fileNode* head){
@@ -480,6 +481,19 @@ void destroyTree(struct Tree *tree){
 
 }
 
+void destroyResults(struct fileNode* resulthead){
+
+	struct fileNode* target=resulthead;
+	while(target){
+		resulthead=resulthead->child;
+		free(target->path);
+		free(target);
+		target=resulthead;
+	
+	}
+
+}
+
 
 //Main provides the interface for the user to enter search terms.
 //so <terms> : Search OR
@@ -648,7 +662,7 @@ int main(int argc, char **argv){
 		ls2->head = head;
 		struct fileNode* result;
 		int count = 0;
-
+		
 
 
 		//switch cased used to call the correct function based on user input.
@@ -656,12 +670,14 @@ int main(int argc, char **argv){
 		case 0: //SO
 			result = so(head, tree);
 			printResult(result, 0, 0);
+			destroyResults(result);
 			break;
 
 		case 1: //SA
 			count = countNodes(ls2);
 			result = sa(head, tree);
 			printResult(result, 1, count);
+			
 			break;
 		case 2: //SXOR
 			result = sa(head, tree);
@@ -669,6 +685,7 @@ int main(int argc, char **argv){
 			break;
 		case 3: //SNO
 			result = sno(head, tree, allfilehead);
+			destroyResults(result);	
 			break;
 		case 4:
 			result = sna(head, tree, allfilehead);
