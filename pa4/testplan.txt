@@ -1,0 +1,220 @@
+Zack Colello and Anna Genke
+pa4 testplan.txt
+
+Test cases
+
+
+Error Checking invocation interface:
+
+Test 1: Too few arguments
+
+	input: ./search 
+	output: Error: invalid number of arguments.
+
+Test 2: Too many arguments
+	
+	input: ./search out.txt out2.txt
+	output: Error: invalid number of arguments.
+
+Test 3: Invalid file name
+
+	input: ./search nonexistentfile.txt
+	output: Invalid file name.
+
+Test 4: Valid file name
+
+	input: ./search out.txt
+	output: (no response) waiting to take in arguments
+
+
+Query testing (after we have called search and entered a valid file):
+
+Test 1: Invalid input
+
+	input: entering words
+	output: incorrect input.
+
+Test 2: No input
+
+	input: (Press enter key)
+	output: incorrect input.
+
+
+sa testing
+
+Test 1: No terms
+
+	input: sa
+	output incorrect input.
+
+Test 2: one term
+
+	input: sa beautiful
+	output: testDir/test2.txt
+
+Test 3: one term, 3 files
+
+	input: sa is
+	output: testDir/test3.txt, testDir/test2.txt, testDIr/testDir2/testfile.txt
+
+Test 4: two terms, one file
+
+	input: sa coffee alive
+	output: testDir/test3.txt
+
+Test 5: two terms from different files
+
+	input: sa keeping layered
+	output: No results found.
+
+Test 6: multiple terms, one file
+
+	input: sa this think the works
+	output: testDir/test3.txt
+
+Test 6: term that does not exist in any file
+
+	input: sa nonexistentword
+	output: No results found.
+
+so testing
+
+Test 1: No terms
+	
+	input: so 
+	output: incorrect input.
+
+Test 2: one term in one file
+
+	input: so still
+	output: testDir/testDir2/testfile.txt
+
+Test 3: one term in three files
+
+	input: so is
+	output: testDir/test3.txt, testDir/test2.txt, testDir/testDir2/testfile.txt
+
+Test 4: two terms in one file
+
+	input: so directory document
+	output: testDir/testDir2/testfile.txt
+
+Test 5: two terms in two different files
+
+	input: so hello layered
+	output: testDir/testDir2/testfile.txt, testDir/test2.txt
+
+Test 6: three terms in three different files
+
+	input: so only on hello
+	output: testDir/test2.txt, testDir/testDir2/testfile.txt, testDir/test3.txt
+ 
+Test 7: Three terms in one file
+
+	input: so layered on program
+	output: testDir/testDir2/testfile.txt
+
+Test 8: term that does not exist in any files
+
+	input: so nonexistentword
+	output: No results found.
+
+Test 9: multiple nonexistent terms
+
+	input: so nonexistent phrases asdf
+	output: No results found.
+
+
+sxo (exclusive or) testing
+
+Test 1: no terms
+
+	input: sxo
+	output: incorrect input
+
+Test 2: one term from 2 files
+
+	input: sxo it
+	output: testDir/test3.txt, testDir/testDir2/testfile.txt
+
+Test 3: two terms from 1 file
+
+	input: sxo okay me
+	output: No results found.
+ 
+Test 4: two terms from 2 files
+
+	input: sxo beautiful alive
+	output: testDir/test3.txt, testDir/test2.txt
+
+Test 5: 3 terms, return one file
+
+	input: this think thing
+	output: testDir/testDir2/testfile.txt
+
+Test 6: 2 nonexistent terms, one existent term
+
+	input: sxo nonexistent asdf today
+	output: testDir/test2.txt
+
+Test 7: all nonexistent terms
+
+	input: sxo noterm doesntexist randomwords
+	output: No results found.
+
+sno (search NOR)
+
+Test 1: no terms
+
+	input: sno
+	output: incorrect input.
+
+Test 2: term that does not exist in any file
+
+	input: sno nonexistentword
+	output: testDir/test2.txt, testDir/test3.txt, testDir/testDir2/testfile.txt
+
+Test 3: one term not in 2 files
+
+	input: sno work
+	output: testDir/test2.txt, testDir/test3.txt
+
+Test 4: two terms one file result
+
+	input: sno work i
+	output: testDir/test2.txt
+
+Test 5: two terms two files
+
+	input: sno test i
+	output: testDir/test2.txt, testDir/testDir2/testfile.txt
+
+sna (search NAND)
+
+
+Test 1: no terms
+
+	input: sna
+	output: incorrect input.
+
+Test 2: two terms, 3 results
+
+	input: sna beautiful coffee
+	output: testDir/test2.txt, testDir/test3.txt, testDir/testDir2/testfile.txt
+
+Test 3: two terms one result
+
+	input: sna this is
+	output: testDir/test2.txt
+
+Test 4: nonexistent word
+
+	input: sna nonexistentword
+	output: testDir/test2.txt, testDir/test3.txt, testDir/testDir2/testfile.txt
+
+Graceful shutdown test
+
+Test 1: quitting
+
+	input: q
+	output: Session ended. (exits program)
