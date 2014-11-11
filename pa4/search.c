@@ -132,7 +132,7 @@ struct fileNode* sa(struct tokenNode* query, struct Tree* tree){
 	 ls->head=query;
 	 int count = countNodes(ls);
 	 int printFlag=0; 
-
+	free(ls);
 	struct fileNode *resulthead = (struct fileNode*)malloc(sizeof(struct fileNode));
 	resulthead->child = NULL;
 	resulthead->parent = NULL;
@@ -251,13 +251,13 @@ struct fileNode* sno(struct tokenNode* query, struct Tree* tree, struct fileNode
 		
 		}
 		printf("\n");
-		return NULL;
+		return soNode;
 	}
 	stemp=soNode;
 
 		if(temp == NULL){
 		printf("No results found.\n");
-		return NULL;
+		return soNode;
 	}
 	
 	//Traverse all nodes that exist in the file
@@ -303,10 +303,11 @@ struct fileNode* sna(struct tokenNode* query, struct Tree* tree, struct fileNode
 
 	struct List* ls = (struct List*)malloc(sizeof(struct List));
 	ls->head=query;
+
 	int count = countNodes(ls);
 	int print=1; //flag used to know whether to print a node
 	int firstflag = 1; //flag used for printing to know whether node is first or not
-	
+	free(ls);	
 	struct fileNode *temp, *stemp, *results, *new;
 
 	temp = head;
@@ -331,13 +332,13 @@ struct fileNode* sna(struct tokenNode* query, struct Tree* tree, struct fileNode
 		
 		}
 		printf("\n");
-		return NULL;
+		return saNode;
 	}
 	stemp=saNode;
 
 		if(temp == NULL){
 		printf("No results found.\n");
-		return NULL;
+		return saNode;
 	}
 	
 	//Traverse all nodes that exist in the file
@@ -377,7 +378,7 @@ struct fileNode* sna(struct tokenNode* query, struct Tree* tree, struct fileNode
 	printf("No results found.");
 	}
 	printf("\n");
-
+	return saNode;
 
 }
 
@@ -486,12 +487,23 @@ void destroyResults(struct fileNode* resulthead){
 	struct fileNode* target=resulthead;
 	while(target){
 		resulthead=resulthead->child;
+		if (target->path){
 		free(target->path);
+		}
 		free(target);
 		target=resulthead;
 	
 	}
 
+}
+void destroyQ(struct List* ls){
+	struct tokenNode* target=ls->head;
+	while(target){
+		ls->head=ls->head->sibling;
+		free(target);
+		target=ls->head;
+	}
+	free(ls);
 }
 
 
@@ -521,7 +533,8 @@ int main(int argc, char **argv){
 		return -1;
 	}	
 
-	struct List* ls = buildLL(fp);	
+	struct List* ls = buildLL(fp);
+	fclose(fp);
 
 /***********************************************************************************************/
 	//make list of File nodes to be used later
@@ -646,6 +659,7 @@ int main(int argc, char **argv){
 		while(token != NULL){	
 			
 			struct tokenNode *newTnode = (struct tokenNode*)malloc(sizeof(struct tokenNode));
+
 			newTnode->token = token;
 			newTnode->sibling = NULL;
 			newTnode->child = NULL;
@@ -671,25 +685,35 @@ int main(int argc, char **argv){
 			result = so(head, tree);
 			printResult(result, 0, 0);
 			destroyResults(result);
+			destroyQ(ls2);
 			break;
 
 		case 1: //SA
 			count = countNodes(ls2);
 			result = sa(head, tree);
 			printResult(result, 1, count);
-			
+			destroyResults(result);
+			destroyQ(ls2);
 			break;
 		case 2: //SXOR
 			result = sa(head, tree);
 			printResult(result, 1, 1);
+			destroyResults(result);
+			destroyQ(ls2);
 			break;
 		case 3: //SNO
 			result = sno(head, tree, allfilehead);
-			destroyResults(result);	
+			destroyResults(result);
+			destroyQ(ls2);
 			break;
-		case 4:
+		case 4://SNA
 			result = sna(head, tree, allfilehead);
+			destroyResults(result);
+			destroyQ(ls2);
+			break;
+			
 		}
+		
 
 	}
 

@@ -81,7 +81,8 @@ struct List* buildLL(FILE *filep){
 				filetestbuffer2 = (char*)malloc(1000);	
 
 				strncpy(filetestbuffer2, filetestbuffer, commaindex);
-		
+				//free(filetestbuffer);	
+				//filetestbuffer=NULL;
 
 				//make fileNode
 	
@@ -89,10 +90,13 @@ struct List* buildLL(FILE *filep){
 				fileTemp->path = (char*)malloc(strlen(filetestbuffer2)+1);
 				fileTemp->child = NULL;
 				fileTemp->count = 0;
+				
 
 				strcpy(fileTemp->path, filetestbuffer2);	
 
-
+				//free(filetestbuffer2);
+				//filetestbuffer2=NULL
+				
 				if(lastNode->child == NULL){ //fileTemp will be first child
 					lastNode->child = fileTemp;
 					lastFileNode = fileTemp;
@@ -105,12 +109,13 @@ struct List* buildLL(FILE *filep){
 				}
 
 				fgets(buffer, 1000, filep);
+
+				filetestbuffer=NULL;
+				filetestbuffer2=NULL;
 			}
 		}
 	}
 	free(firstSeven);
-	free(filetestbuffer);
-	free(filetestbuffer2);
 	free(buffer);
 	return ls;
 
